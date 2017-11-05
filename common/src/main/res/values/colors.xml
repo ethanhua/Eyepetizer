@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dim_foreground_dark">#bebebe</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="white30">#46ffffff</color>
+    <color name="white50">#7affffff</color>
+    <color name="white70">#b2ffffff</color>
+    <color name="white90">#e6ffffff</color>
+    <color name="black20">#32000000</color>
+    <color name="media_controller_bg">#55000000</color>
+</resources>

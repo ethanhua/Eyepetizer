@@ -1,0 +1,28 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ethanhua.eyepetizer.module.ranklist.viewmodel.RankListVM" />
+    </data>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:refreshing="@{vm.isLoading}"
+        bind:onRefresh="@{vm}"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            bind:onLoadMore="@{vm}"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            bind:adapter="@{vm.getAdapter()}" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</layout>

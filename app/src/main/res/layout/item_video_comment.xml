@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <import type="com.ethanhua.eyepetizer.R.string" />
+
+        <variable
+            name="vm"
+            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoCommentVM" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imageUrl="@{vm.avatar}" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{vm.nickname}"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/img_avatar"
+            app:layout_constraintTop_toTopOf="@+id/img_avatar" />
+
+        <TextView
+            android:id="@+id/tv_speak_to"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="2dp"
+            android:text="@{@string/reply_at +vm.relatedCommentUserName}"
+            android:textColor="@color/white70"
+            android:textSize="12sp"
+            android:visibility="@{TextUtils.isEmpty(vm.relatedCommentUserName.get())?View.GONE:View.VISIBLE}"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_nickname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="2dp"
+            android:text="@{vm.content}"
+            android:textColor="@color/white90"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_nickname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_speak_to" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout_related_comment"
+            android:layout_width="0dp"
+            android:background="@color/black20"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:padding="8dp"
+            android:visibility="@{TextUtils.isEmpty(vm.relatedCommentUserName.get())?View.GONE:View.VISIBLE}"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_nickname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_related_avatar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:imageUrl="@{vm.relatedCommentAvatar}" />
+
+            <TextView
+                android:id="@+id/tv_related_nickname"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{vm.relatedCommentUserName}"
+                android:textColor="@color/white90"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/img_related_avatar"
+                app:layout_constraintTop_toTopOf="@+id/img_related_avatar" />
+
+            <TextView
+                android:id="@+id/tv_related_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@{vm.relatedCommentContent}"
+                android:textSize="13sp"
+                android:textColor="@color/white70"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_related_nickname"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_related_nickname" />
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_look"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/see_conversation"
+            android:textColor="@color/white70"
+            android:textSize="14sp"
+            android:visibility="@{TextUtils.isEmpty(vm.relatedCommentContent)?View.GONE:View.VISIBLE}"
+            app:layout_constraintLeft_toLeftOf="@id/tv_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/layout_related_comment" />
+
+        <TextView
+            android:id="@+id/tv_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/reply"
+            android:textColor="@color/white70"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_look"
+            app:layout_constraintTop_toBottomOf="@+id/layout_related_comment"
+            app:layout_goneMarginLeft="0dp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="@{vm.createTime}"
+            android:textColor="@color/white70"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_reply"
+            app:layout_constraintLeft_toRightOf="@+id/tv_reply"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_reply" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/white30"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_nickname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

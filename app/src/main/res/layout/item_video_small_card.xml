@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.ethanhua.eyepetizer.viewmodel.NavigationViewModel" />
+
+        <variable
+            name="vm"
+            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{(v) -> NavigationViewModel.startVideoDetails(v,vm)}"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/img_video"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imageUrl="@{vm.coverUrl}" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{vm.title}"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@+id/img_video"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_video"
+            tools:text="这是视频的标题换两行啦啦啦啦啦" />
+
+        <TextView
+            android:id="@+id/tv_subTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{vm.subTitle}"
+            android:textColor="@color/white90"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="这是视频的副标题" />
+
+        <View
+            android:layout_width="2000dp"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/white30"
+            app:layout_constraintTop_toBottomOf="@+id/img_video" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

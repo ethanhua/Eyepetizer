@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="homeVM"
+            type="com.ethanhua.eyepetizer.module.home.viewmodel.HomeVM" />
+    </data>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:refreshing="@{homeVM.isLoading}"
+        bind:onRefresh="@{homeVM}">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            bind:adapter="@{homeVM.getAdapter()}"
+            bind:onLoadMore="@{homeVM}" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</layout>

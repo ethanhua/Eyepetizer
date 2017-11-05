@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/pause_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="20dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_pause_circle_outline_white_48dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_controller"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <LinearLayout
+        android:id="@+id/layout_controller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/media_controller_bg"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageButton
+            android:id="@+id/pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_pause_white_24dp" />
+
+        <TextView
+            android:id="@+id/time_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            tools:text="0:00" />
+
+        <SeekBar
+            android:id="@+id/mediacontroller_progress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="?selectableItemBackgroundBorderless"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/seekbar_thumb" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="6dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            tools:text="12:00" />
+
+        <ImageButton
+            android:id="@+id/fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="6dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_fullscreen_white_24dp" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
+
+
+

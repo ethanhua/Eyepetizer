@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Eyepetizer</string>
+    <string name="title_home">首页</string>
+    <string name="title_discover">发现</string>
+    <string name="title_follow">关注</string>
+    <string name="title_me">我的</string>
+    <string name="reply_at">回复 @</string>
+    <string name="find_your_interesting_video">帮你找到感兴趣的视频</string>
+    <string name="cancel">取消</string>
+    <string name="more_choiceness">更 多 开 眼 编 辑 精 选</string>
+    <string name="see_conversation">查看对话</string>
+    <string name="reply">回复</string>
+    <string name="cache">缓存</string>
+    <string name="please_input_key_string_to_find_more_video">输入标题或描述中的关键词找到更多视频</string>
+    <string name="hot_search_tag">- 热门搜索词 -</string>
+    <string name="ranking_list">排行榜</string>
+</resources>

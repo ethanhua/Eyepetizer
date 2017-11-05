@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="com.ethanhua.eyepetizer.viewmodel.NavigationViewModel" />
+        <variable
+            name="lastOneVM"
+            type="com.ethanhua.eyepetizer.module.home.viewmodel.ActionCardVM" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="6dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:onClick="@{(view)->NavigationViewModel.start(view, lastOneVM.actionUrl)}"
+        android:paddingRight="6dp">
+
+        <FrameLayout
+            android:layout_width="152dp"
+            android:layout_height="152dp"
+            android:background="@color/colorWhiteDark"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:gravity="center"
+                android:text="@{lastOneVM.text}"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

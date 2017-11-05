@@ -1,0 +1,121 @@
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = "26.0.1"
+    androidMinSdkVersion = 19
+    androidTargetSdkVersion = 26
+    androidCompileSdkVersion = 26
+
+    //Libraries
+    daggerVersion = '2.11'
+    supportLibVersion = '26.1.0'
+    constraintLayoutVersion = '1.0.2'
+    multitypeVersion = '3.3.0'
+    rxJavaVersion = '2.1.3'
+    rxAndroidVersion = '2.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    gsonVersion = '2.3'
+    okHttpVersion = '3.9.0'
+    androidAnnotationsVersion = '21.0.3'
+    arrowVersion = '1.0.0'
+    retrofitVersion = '2.3.0'
+    glideVersion = '4.1.1'
+    circleImageViewVersion = '2.1.0'
+    ijkplayerVersion = '0.8.3'
+    videocacheVerision = '2.7.0'
+    flexboxVerision = '0.3.1'
+    //Testing
+    robolectricVersion = '3.1.1'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '1.9.5'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.0'
+    testingSupportLibVersion = '0.1'
+
+    //Development
+    leakCanaryVersion = '1.3.1'
+
+    commonLibDependencies = [
+            design          : "com.android.support:design:${supportLibVersion}",
+            constraintLayout: "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            ijkplayerjava   : "tv.danmaku.ijk.media:ijkplayer-java:${ijkplayerVersion}",
+            ijkplayerarm    : "tv.danmaku.ijk.media:ijkplayer-armv7a:${ijkplayerVersion}",
+            ijkplayerexo    : "tv.danmaku.ijk.media:ijkplayer-exo:${ijkplayerVersion}",
+            multitype       : "me.drakeet.multitype:multitype:${multitypeVersion}",
+    ]
+
+    presentationDependencies = [
+            daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger          : "com.google.dagger:dagger:${daggerVersion}",
+            glide           : "com.github.bumptech.glide:glide:${glideVersion}",
+            design          : "com.android.support:design:${supportLibVersion}",
+            cardview        : "com.android.support:cardview-v7:${supportLibVersion}",
+            palette         : "com.android.support:palette-v7:${supportLibVersion}",
+            constraintLayout: "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            multitype       : "me.drakeet.multitype:multitype:${multitypeVersion}",
+            rxJava          : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid       : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            circleImageView : "de.hdodenhof:circleimageview:${circleImageViewVersion}",
+            videocache      : "com.danikula:videocache:${videocacheVerision}",
+            flexbox         : "com.google.android:flexbox:${flexboxVerision}"
+//            javaxAnnotation : "javax.annotation:jsr250-api:${javaxAnnotationVersion}"
+    ]
+
+    presentationTestDependencies = [
+            junit            : "junit:junit:${jUnitVersion}",
+            mockito          : "org.mockito:mockito-core:${mockitoVersion}",
+            dexmaker         : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito  : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso         : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            testingSupportLib: "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+    ]
+
+    domainDependencies = [
+//            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+//            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+rxJava: "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+dagger: "com.google.dagger:dagger:${daggerVersion}",
+    ]
+
+    domainTestDependencies = [
+            junit  : "junit:junit:${jUnitVersion}",
+            mockito: "org.mockito:mockito-core:${mockitoVersion}",
+            assertj: "org.assertj:assertj-core:${assertJVersion}"
+    ]
+
+    dataDependencies = [
+            daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger               : "com.google.dagger:dagger:${daggerVersion}",
+            retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConverterGson: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            okHttp               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLog            : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            gson                 : "com.google.code.gson:gson:${gsonVersion}",
+            rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}"
+    ]
+
+    dataTestDependencies = [
+            junit      : "junit:junit:${jUnitVersion}",
+            assertj    : "org.assertj:assertj-core:${assertJVersion}",
+            mockito    : "org.mockito:mockito-core:${mockitoVersion}",
+            robolectric: "org.robolectric:robolectric:${robolectricVersion}",
+    ]
+
+    developmentDependencies = [
+            leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+    ]
+}

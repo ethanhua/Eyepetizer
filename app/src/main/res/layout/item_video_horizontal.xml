@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.ethanhua.eyepetizer.viewmodel.NavigationViewModel" />
+        <variable
+            name="videoVM"
+            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="270dp"
+        android:paddingBottom="12dp"
+        android:layout_marginLeft="4dp"
+        android:transitionName="share"
+        android:onClick="@{(view)->NavigationViewModel.startVideoDetailsOnAnim(view,videoVM)}"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_cover"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imageUrl="@{videoVM.coverUrl}"
+            android:layout_width="0dp"
+            android:scaleType="centerCrop"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/img_cover"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:textSize="14sp"
+            tools:text="超萌预警，宝贝老板预告片"
+            android:text="@{videoVM.title}"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="@{videoVM.subTitle}"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

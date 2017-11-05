@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.ethanhua.eyepetizer.viewmodel.NavigationViewModel" />
+
+        <variable
+            name="vm"
+            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintDimensionRatio="4:3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.ethanhua.commonlib.widget.CircleIndicator
+            android:id="@+id/circle_indicator"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="25dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{v->NavigationViewModel.startSearch(v)}"
+            android:src="@drawable/ic_search_white_24dp"
+            app:layout_constraintRight_toRightOf="@+id/viewPager"
+            app:layout_constraintTop_toTopOf="@+id/viewPager" />
+
+        <ImageView
+            android:id="@+id/img_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.ethanhua.commonlib.widget.TyperTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_slogan"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:typerText="@{vm.title}" />
+
+        <com.ethanhua.commonlib.widget.TyperTextView
+            android:id="@+id/tv_slogan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="26dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white90"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:typerText="@{vm.slogan}" />
+
+        <TextView
+            android:id="@+id/tv_bottom_title"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:gravity="center"
+            android:text="@string/more_choiceness"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.ethanhua.eyepetizer.viewmodel.NavigationViewModel" />
+
+        <variable
+            name="actionUrl"
+            type="java.lang.String" />
+
+        <variable
+            name="coverUrl"
+            type="java.lang.String" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="340dp"
+        android:layout_marginLeft="4dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_cover"
+            android:layout_width="340dp"
+            android:layout_height="0dp"
+            android:onClick="@{(v)->NavigationViewModel.start(v,actionUrl)}"
+            android:scaleType="centerCrop"
+            android:transitionName="share"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imageUrl="@{coverUrl}" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

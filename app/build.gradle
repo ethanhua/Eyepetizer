@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        applicationId globalConfiguration["androidApplicationId"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled true
+    }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+}
+
+
+dependencies {
+
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+
+    //apt presentationDependencies.daggerCompiler
+
+    //Development
+    compile developmentDependencies.leakCanary
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':common')
+    compile project(':domain')
+    compile project(':data')
+    compile presentationDependencies.design
+    compile presentationDependencies.cardview
+    compile presentationDependencies.constraintLayout
+    compile presentationDependencies.multitype
+    compile presentationDependencies.glide
+    compile presentationDependencies.dagger
+    compile presentationDependencies.rxAndroid
+    compile presentationDependencies.circleImageView
+    compile presentationDependencies.videocache
+    compile presentationDependencies.flexbox
+    annotationProcessor presentationDependencies.daggerCompiler
+    testCompile domainTestDependencies.junit
+}

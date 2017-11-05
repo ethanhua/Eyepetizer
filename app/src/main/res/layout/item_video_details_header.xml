@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black20"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <com.ethanhua.commonlib.widget.TyperTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            app:typerText="@{vm.title}" />
+
+        <com.ethanhua.commonlib.widget.TyperTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/white70"
+            android:textSize="14sp"
+            app:typerText="@{vm.subTitle}" />
+
+        <com.ethanhua.commonlib.widget.TyperTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white70"
+            android:textSize="14sp"
+            app:typerText="@{vm.description}" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_favorite_border_white_18dp"
+                android:drawablePadding="6dp"
+                android:text="@{vm.collectionCount}"
+                android:textColor="@color/white70"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_share"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:layout_editor_absoluteY="25dp" />
+
+            <TextView
+                android:id="@+id/tv_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_share_white_18dp"
+                android:drawablePadding="6dp"
+                android:text="@{vm.shareCount}"
+                android:textColor="@color/white70"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/tv_collect"
+                app:layout_constraintRight_toLeftOf="@+id/tv_reply"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:layout_editor_absoluteY="25dp" />
+
+            <TextView
+                android:id="@+id/tv_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_textsms_white_18dp"
+                android:drawablePadding="6dp"
+                android:text="@{vm.replyCount}"
+                android:textColor="@color/white70"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/tv_share"
+                app:layout_constraintRight_toLeftOf="@+id/tv_cache"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:layout_editor_absoluteY="25dp" />
+
+            <TextView
+                android:id="@+id/tv_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_cloud_download_white_18dp"
+                android:drawablePadding="6dp"
+                android:text="@string/cache"
+                android:textColor="@color/white70"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/tv_reply"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:layout_editor_absoluteY="25dp" />
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="-200dp"
+            android:layout_marginRight="-200dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white30" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:visibility="@{TextUtils.isEmpty(vm.authorAvatar.get())?View.GONE:View.VISIBLE}">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:imageUrl="@{vm.authorAvatar}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:text="@{vm.authorName}"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintLeft_toRightOf="@+id/img_avatar"
+                app:layout_constraintTop_toTopOf="@+id/img_avatar" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="36dp"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{vm.authorIntro}"
+                android:textColor="@color/white90"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_avatar"
+                app:layout_constraintLeft_toRightOf="@+id/img_avatar"
+                app:layout_constraintRight_toRightOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.ethanhua.eyepetizer.viewmodel.NavigationViewModel" />
+
+        <variable
+            name="vm"
+            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:transitionName="share"
+        android:onClick="@{(view)->NavigationViewModel.startVideoDetailsOnAnim(view,vm)}"
+        android:layout_height="match_parent">
+
+        <com.ethanhua.commonlib.media.IjkVideoViewEx
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="@color/black20"
+            bind:coverImageUrl="@{vm.coverUrl}"
+            bind:videoURI="@{vm.thumbPlayUri}" />
+    </FrameLayout>
+</layout>
