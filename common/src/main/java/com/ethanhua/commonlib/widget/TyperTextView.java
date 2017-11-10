@@ -50,6 +50,9 @@ public class TyperTextView extends AppCompatTextView {
     }
 
     private void typeText(final SpannableString spannableString) {
+        if (!isAttachedToWindow()) {
+            return;
+        }
         getHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -67,7 +70,7 @@ public class TyperTextView extends AppCompatTextView {
     }
 
     public void startTypeText() {
-        if(!isAttachedToWindow()){
+        if (!isAttachedToWindow()) {
             return;
         }
         reset();

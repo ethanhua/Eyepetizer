@@ -14,13 +14,13 @@
         android:layout_marginRight="20dp"
         android:background="?selectableItemBackgroundBorderless"
         android:src="@drawable/ic_pause_circle_outline_white_48dp"
-        app:layout_constraintBottom_toTopOf="@+id/layout_controller"
+        app:layout_constraintBottom_toTopOf="@+id/layout_top_controller"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <LinearLayout
-        android:id="@+id/layout_controller"
+        android:id="@+id/layout_top_controller"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/media_controller_bg"

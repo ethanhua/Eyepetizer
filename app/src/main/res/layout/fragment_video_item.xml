@@ -13,9 +13,9 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:transitionName="share"
+        android:layout_height="match_parent"
         android:onClick="@{(view)->NavigationViewModel.startVideoDetailsOnAnim(view,vm)}"
-        android:layout_height="match_parent">
+        android:transitionName="share">
 
         <com.ethanhua.commonlib.media.IjkVideoViewEx
             android:id="@+id/video_view"
@@ -24,5 +24,11 @@
             android:foreground="@color/black20"
             bind:coverImageUrl="@{vm.coverUrl}"
             bind:videoURI="@{vm.thumbPlayUri}" />
+        <!--<com.ethanhua.commonlib.originmedia.MediaPlayerView-->
+        <!--android:id="@+id/video_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:foreground="@color/black20"-->
+        <!--bind:videoURI="@{vm.thumbPlayUri}" />-->
     </FrameLayout>
 </layout>

@@ -168,7 +168,7 @@ public class MediaController extends FrameLayout implements IMediaController {
 //        mDecor.measure(MeasureSpec.makeMeasureSpec(mAnchor.getWidth(), MeasureSpec.AT_MOST),
 //                MeasureSpec.makeMeasureSpec(mAnchor.getHeight(), MeasureSpec.AT_MOST));
 //
-//        WindowManager.LayoutParams p = mDecorLayoutParams;
+//        WindowManager.ClipStyle p = mDecorLayoutParams;
 //        p.width = mAnchor.getWidth();
 //        p.x = anchorPos[0] + (mAnchor.getWidth() - p.width) / 2;
 //        p.y = anchorPos[1] + mAnchor.getHeight() - mDecor.getMeasuredHeight();
@@ -391,7 +391,7 @@ public class MediaController extends FrameLayout implements IMediaController {
         }
     };
 
-    private final Runnable mShowProgress = new Runnable() {
+    private final Runnable  mShowProgress = new Runnable() {
         @Override
         public void run() {
             int pos = setProgress();
