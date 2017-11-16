@@ -32,6 +32,8 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.ethanhua.commonlib.media.MeasureHelper;
+
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -147,7 +149,6 @@ public class TextureRenderView extends TextureView implements IRenderView {
             mSurfaceTextureHost = surfaceTextureHost;
         }
 
-        @Override
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         public void bindToMediaPlayer(IMediaPlayer mp) {
             if (mp == null)
@@ -213,8 +214,7 @@ public class TextureRenderView extends TextureView implements IRenderView {
 
     private SurfaceCallback mSurfaceCallback;
 
-    private static final class SurfaceCallback
-            implements SurfaceTextureListener, ISurfaceTextureHost {
+    private static final class SurfaceCallback implements TextureView.SurfaceTextureListener, ISurfaceTextureHost {
         private SurfaceTexture mSurfaceTexture;
         private boolean mIsFormatChanged;
         private int mWidth;
@@ -369,5 +369,4 @@ public class TextureRenderView extends TextureView implements IRenderView {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(TextureRenderView.class.getName());
     }
-
 }

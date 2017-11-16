@@ -1,20 +1,21 @@
-package com.ethanhua.commonlib.originmedia;
+package com.ethanhua.commonlib.media;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -30,19 +31,29 @@ import java.util.Locale;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
-import static com.ethanhua.commonlib.originmedia.IMediaPlayerView.STATE_ERROR;
-import static com.ethanhua.commonlib.originmedia.IMediaPlayerView.STATE_IDLE;
-import static com.ethanhua.commonlib.originmedia.IMediaPlayerView.STATE_PREPARING;
+import static com.ethanhua.commonlib.media.IMediaPlayerView.STATE_ERROR;
+import static com.ethanhua.commonlib.media.IMediaPlayerView.STATE_IDLE;
+import static com.ethanhua.commonlib.media.IMediaPlayerView.STATE_PREPARING;
 
 /**
  * Created by ethanhua on 2017/11/7.
+ * <p>
+ * 视频播放的控制View 主要是一些控制UI和对应的控制操作逻辑
+ * 已有的控制功能：
+ * 1 暂停/播放
+ * 2 全屏切换
+ * 3 音量调节
+ * 4 亮度调节
+ * 5 滑动快进快退及拖动进度条快进或快退
+ * 6 视频源清晰度切换
+ * 7 视频画面显示比例切换
  */
 
 public class MediaControllerView
         extends FrameLayout
-        implements IMediaControllerView, View.OnClickListener {
-    private static int INVALID_VALUE = -1;
-    private String TAG = MediaControllerView.class.getSimpleName();
+        implements IMediaController, View.OnClickListener {
+    private final String TAG = MediaControllerView.class.getSimpleName();
+    private final int INVALID_VALUE = -1;
     private final int DEFAULT_SHOW_TIME = 3000;
     private boolean mShowing = false;
 
@@ -56,31 +67,36 @@ public class MediaControllerView
 
     private SeekBar progressSeekBar;
     private TextView tvTitle;
-    private TextView tvCurrentTime;
-    private TextView tvDurationTime;
-
-    private FrameLayout layoutGesturesAction;//手势操作显示布局（声音、亮度、快进、快退控制）
+    private TextView tvCurrentTime;//当前播放进度时间点
+    private TextView tvDurationTime;//视频时长时间
+    private VideoClipView mVideoClipView;//画面比例（视频裁剪）控制选择View
+    private ImageButton btnClipStyle; //画面比例（视频裁剪）控制
+    private ImageButton btnQualityType; //视频源切换 （1080p/超清/高清/标清/流畅）
+    private VideoQualityView mVideoQualityView;//视频源切换选择View
+    private VideoUrlSource mVideoUrlSource;
+    /**
+     * 手势操作相关（声音、亮度、快进、快退控制） *****************************
+     */
+    private FrameLayout layoutGesturesAction;
     private TextView tvVolume;
     private TextView tvBrightness;
     private TextView tvFastForward;
+    private GestureDetector mGestureDetector;
+    private final int ACTION_VOLUME = 0; //声音调节
+    private final int ACTION_BRIGHTNESS = 1;//亮度调节
+    private final int ACTION_FAST_BACKWARD = 2;//快退
+    private final int ACTION_FAST_FORWARD = 3;//快进
+    private final int ACTION_NONE = -1;//无手势动作
+    private int mCurrentAction = ACTION_NONE;//当前的手势控制动作
+    private AudioManager mAudioManager;
+    private int mMaxVolume;
+    private int mStartVolume = INVALID_VALUE;
+    private long mTargetPosition;//快进或快退操作的目标位置
 
     private IMediaPlayerView mediaPlayerView;
     private StringBuilder mFormatBuilder;
     private Formatter mFormatter;
-    private OrientationEventListener mOrientationEventListener;
     private AppCompatActivity mAttachActivity;
-    private GestureDetector mGestureDetector;
-
-    private static final int ACTION_VOLUME = 0; //声音调节
-    private static final int ACTION_BRIGHTNESS = 1;//亮度调节
-    private static final int ACTION_FAST_BACKWARD = 2;//快退
-    private static final int ACTION_FAST_FORWARD = 3;//快进
-    private static final int ACTION_NONE = -1;//无手势动作
-    private long mTargetPosition;
-    private int mCurrentAction = ACTION_NONE;
-    private AudioManager mAudioManager;
-    private int mMaxVolume;
-    private int mStartVolume = INVALID_VALUE;
 
     public MediaControllerView(@NonNull Context context) {
         super(context);
@@ -134,7 +150,10 @@ public class MediaControllerView
         tvVolume = rootView.findViewById(R.id.tv_volume);
         tvBrightness = rootView.findViewById(R.id.tv_brightness);
         tvFastForward = rootView.findViewById(R.id.tv_fast_forward);
-
+        btnClipStyle = rootView.findViewById(R.id.btn_clip_style);
+        btnQualityType = rootView.findViewById(R.id.btn_quality_type);
+        mVideoClipView = new VideoClipView(getContext());
+        mVideoQualityView = new VideoQualityView(getContext());
         mGestureDetector = new GestureDetector(mAttachActivity, simpleOnGestureListener);
         progressSeekBar.setMax(1000);
         progressSeekBar.setOnSeekBarChangeListener(mSeekListener);
@@ -145,7 +164,10 @@ public class MediaControllerView
         btnFullScreen.setOnClickListener(this);
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
-
+        btnClipStyle.setOnClickListener(this);
+        btnQualityType.setOnClickListener(this);
+        mVideoClipView.setOnClipStyleSelectedListener(mClipStyleSelectedListener);
+        mVideoQualityView.setOnVideoSourceSelectedListener(mSourceSelectedListener);
         // 声音
         mAudioManager = (AudioManager) mAttachActivity.getSystemService(Context.AUDIO_SERVICE);
         mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -153,6 +175,9 @@ public class MediaControllerView
         hide();
     }
 
+    /**
+     * 后退 当处于全屏状态时先退出全屏，否则退出当前Activity
+     */
     private void back() {
         if (Utils.isFullScreen(mAttachActivity)) {
             Utils.switchFullScreen(mAttachActivity, false);
@@ -175,6 +200,9 @@ public class MediaControllerView
         }
     }
 
+    /**
+     * 更新播放器状态相关UI
+     */
     private void updatePlayerStateUI() {
         if (mediaPlayerView != null) {
             updatePlayerStateUI(mediaPlayerView.getCurrentState());
@@ -204,6 +232,9 @@ public class MediaControllerView
     }
 
 
+    /**
+     * @return 是否在播放状态
+     */
     private boolean isInPlaybackState() {
         if (mediaPlayerView == null) {
             return false;
@@ -214,6 +245,9 @@ public class MediaControllerView
                 mCurrentState != STATE_PREPARING);
     }
 
+    /**
+     * 切换全屏
+     */
     private void toggleFullScreen() {
         Utils.toggleFullScreen(mAttachActivity);
         updateScreenStateUI();
@@ -357,11 +391,9 @@ public class MediaControllerView
                 }
             };
 
-
     private OnTouchListener onTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            Log.e(TAG, "onTouch" + event.getAction());
             if (mGestureDetector.onTouchEvent(event)) {
                 return true;
             }
@@ -372,6 +404,54 @@ public class MediaControllerView
         }
     };
 
+    private VideoClipView.OnClipStyleSelectedListener mClipStyleSelectedListener = new VideoClipView.OnClipStyleSelectedListener() {
+        @Override
+        public void onClipStyleSelected(@IRenderView.ClipStyle int clipStyle) {
+            switch (clipStyle) {
+                case IRenderView.AR_FIT_PARENT:
+                    btnClipStyle.setImageResource(R.drawable.sel_btn_ar_adjust_screen);
+                    break;
+                case IRenderView.AR_FILL_PARENT:
+                    btnClipStyle.setImageResource(R.drawable.sel_btn_ar_adjust_video);
+                    break;
+                case IRenderView.AR_16_9_FIT_PARENT:
+                    btnClipStyle.setImageResource(R.drawable.sel_btn_ar_16_9);
+                    break;
+                case IRenderView.AR_4_3_FIT_PARENT:
+                    btnClipStyle.setImageResource(R.drawable.sel_btn_ar_4_3);
+                    break;
+            }
+            mediaPlayerView.switchClipStyle(clipStyle);
+        }
+    };
+
+    private VideoQualityView.OnVideoSourceSelectedListener mSourceSelectedListener = new VideoQualityView.OnVideoSourceSelectedListener() {
+        @Override
+        public void onVideoSourceSelected(@VideoUrlSource.QualityType int qualityType) {
+            switch (qualityType) {
+                case VideoUrlSource.MEDIA_QUALITY_BD:
+                    btnQualityType.setImageResource(R.drawable.ic_media_quality_bd);
+                    break;
+                case VideoUrlSource.MEDIA_QUALITY_SUPER:
+                    btnQualityType.setImageResource(R.drawable.ic_media_quality_super);
+                    break;
+                case VideoUrlSource.MEDIA_QUALITY_HIGH:
+                    btnQualityType.setImageResource(R.drawable.ic_media_quality_high);
+                    break;
+                case VideoUrlSource.MEDIA_QUALITY_NORMAL:
+                    btnQualityType.setImageResource(R.drawable.ic_media_quality_medium);
+                    break;
+                case VideoUrlSource.MEDIA_QUALITY_LOW:
+                    btnQualityType.setImageResource(R.drawable.ic_media_quality_smooth);
+                    break;
+            }
+            mediaPlayerView.setVideoURI(Uri.parse(mVideoUrlSource.getUrlByQuality(qualityType)));
+        }
+    };
+
+    /**
+     * 切换当前控制View显示隐藏
+     */
     private void switchVisible() {
         if (isShowing()) {
             hide();
@@ -380,6 +460,9 @@ public class MediaControllerView
         }
     }
 
+    /**
+     * 手势操作结束后执行的逻辑 包括重置状态和更新相关UI
+     */
     private void endGestureAction() {
         layoutGesturesAction.setVisibility(GONE);
         if (mCurrentAction == ACTION_FAST_BACKWARD
@@ -393,8 +476,12 @@ public class MediaControllerView
         mStartVolume = INVALID_VALUE;
     }
 
+    /**
+     * 播放进度快进或快退
+     *
+     * @param deltaPercent
+     */
     private void fastForwardProgress(float deltaPercent) {
-
         int position = mediaPlayerView.getCurrentPosition();
         long duration = mediaPlayerView.getDuration();
         // 单次拖拽最大时间差为100秒或播放时长的1/2
@@ -425,6 +512,11 @@ public class MediaControllerView
         tvFastForward.setVisibility(VISIBLE);
     }
 
+    /**
+     * 音量调节
+     *
+     * @param deltaPercent
+     */
     private void controlVolume(float deltaPercent) {
         if (mStartVolume == INVALID_VALUE) {
             mStartVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -444,6 +536,11 @@ public class MediaControllerView
         tvVolume.setText((targetVolume * 100 / mMaxVolume) + "%");
     }
 
+    /**
+     * 亮度调节
+     *
+     * @param deltaPercent
+     */
     private void controlBrightness(float deltaPercent) {
         float mCurBrightness = mAttachActivity.getWindow().getAttributes().screenBrightness;
         if (mCurBrightness < 0.0f) {
@@ -501,6 +598,46 @@ public class MediaControllerView
             show();
             return;
         }
+        if (viewId == R.id.btn_clip_style) {
+            if (mVideoClipView == null) {
+
+            }
+            if (mVideoClipView.isShowing()) {
+                mVideoClipView.dismiss();
+            } else {
+                mVideoClipView.showAsDropDown(btnClipStyle, 0, btnClipStyle.getHeight());
+            }
+            return;
+        }
+        if (viewId == R.id.btn_quality_type) {
+            if (mVideoQualityView.isShowing()) {
+                mVideoQualityView.dismiss();
+            } else {
+                mVideoQualityView.showAtTop(v, 0, 0);
+            }
+            return;
+        }
+    }
+
+    /**
+     * 更新视频清晰度相关UI
+     */
+    private void updateUrlSourceUI() {
+        if (mVideoUrlSource == null || (mVideoUrlSource.isEmptyOrSingle())) {
+            btnQualityType.setVisibility(GONE);
+            return;
+        }
+        btnQualityType.setVisibility(VISIBLE);
+        mVideoQualityView.rbBd.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.bdUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbSupper.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.supperUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbHigh.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.highUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbNormal.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.normalUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbLow.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.lowUrl) ? GONE : VISIBLE);
     }
 
     /**
@@ -557,5 +694,10 @@ public class MediaControllerView
     @Override
     public boolean isShowing() {
         return mShowing;
+    }
+
+    public void setUrlSource(VideoUrlSource videoUrlSource) {
+        this.mVideoUrlSource = videoUrlSource;
+        updateUrlSourceUI();
     }
 }

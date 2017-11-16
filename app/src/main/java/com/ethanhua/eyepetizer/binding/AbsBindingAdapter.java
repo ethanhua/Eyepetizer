@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ethanhua.commonlib.media.IjkVideoViewEx;
+import com.ethanhua.commonlib.media.MediaPlayerView;
 import com.ethanhua.commonlib.widget.recyclerview.OnRcvLoadMoreListener;
 import com.ethanhua.commonlib.widget.recyclerview.Pageable;
 import com.ethanhua.commonlib.widget.recyclerview.Refreshable;
@@ -34,7 +34,7 @@ public abstract class AbsBindingAdapter {
 
 
     @BindingAdapter("coverImageUrl")
-    public abstract void bindVideoCoverImage(IjkVideoViewEx ijkVideoViewEx,
+    public abstract void bindVideoCoverImage(MediaPlayerView mediaPlayerView,
                                              String url);
 
     @BindingAdapter("android:text")

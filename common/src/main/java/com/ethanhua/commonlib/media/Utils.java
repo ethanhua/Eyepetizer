@@ -1,4 +1,4 @@
-package com.ethanhua.commonlib.originmedia;
+package com.ethanhua.commonlib.media;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,6 +1,8 @@
-package com.ethanhua.commonlib.originmedia;
+package com.ethanhua.commonlib.media;
 
+import android.net.Uri;
 import android.support.annotation.IntDef;
+import android.view.View;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -26,7 +28,9 @@ public interface IMediaPlayerView {
             STATE_PLAYING,
             STATE_PAUSED,
             STATE_PLAYBACK_COMPLETED})
-    @interface State {}
+    @interface State {
+    }
+    void setVideoURI(Uri uri);
 
     int getDuration();
 
@@ -52,6 +56,8 @@ public interface IMediaPlayerView {
      */
     int getAudioSessionId();
 
+    View getCoverView();
+
     void start();
 
     void pause();
@@ -71,4 +77,6 @@ public interface IMediaPlayerView {
     void setOnErrorListener(IMediaPlayer.OnErrorListener l);
 
     void setOnInfoListener(IMediaPlayer.OnInfoListener l);
+
+
 }

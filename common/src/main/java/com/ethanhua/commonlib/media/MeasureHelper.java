@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2015 Bilibili
- * Copyright (C) 2015 Zhang Rui <bbcallen@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.ethanhua.commonlib.media;
 
 import android.content.Context;
@@ -25,6 +8,9 @@ import com.ethanhua.commonlib.R;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Created by ethanhua on 2017/11/16.
+ */
 
 public final class MeasureHelper {
     private WeakReference<View> mWeakView;
@@ -39,7 +25,7 @@ public final class MeasureHelper {
     private int mMeasuredWidth;
     private int mMeasuredHeight;
 
-    private int mCurrentAspectRatio = IRenderView.AR_ASPECT_FIT_PARENT;
+    private int mCurrentAspectRatio = IRenderView.AR_FIT_PARENT;
 
     public MeasureHelper(View view) {
         mWeakView = new WeakReference<View>(view);
@@ -105,9 +91,9 @@ public final class MeasureHelper {
                         if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270)
                             displayAspectRatio = 1.0f / displayAspectRatio;
                         break;
-                    case IRenderView.AR_ASPECT_FIT_PARENT:
-                    case IRenderView.AR_ASPECT_FILL_PARENT:
-                    case IRenderView.AR_ASPECT_WRAP_CONTENT:
+                    case IRenderView.AR_FIT_PARENT:
+                    case IRenderView.AR_FILL_PARENT:
+                    case IRenderView.AR_WRAP_CONTENT:
                     default:
                         displayAspectRatio = (float) mVideoWidth / (float) mVideoHeight;
                         if (mVideoSarNum > 0 && mVideoSarDen > 0)
@@ -117,7 +103,7 @@ public final class MeasureHelper {
                 boolean shouldBeWider = displayAspectRatio > specAspectRatio;
 
                 switch (mCurrentAspectRatio) {
-                    case IRenderView.AR_ASPECT_FIT_PARENT:
+                    case IRenderView.AR_FIT_PARENT:
                     case IRenderView.AR_16_9_FIT_PARENT:
                     case IRenderView.AR_4_3_FIT_PARENT:
                         if (shouldBeWider) {
@@ -130,7 +116,7 @@ public final class MeasureHelper {
                             width = (int) (height * displayAspectRatio);
                         }
                         break;
-                    case IRenderView.AR_ASPECT_FILL_PARENT:
+                    case IRenderView.AR_FILL_PARENT:
                         if (shouldBeWider) {
                             // not high enough, fix height
                             height = heightSpecSize;
@@ -141,7 +127,7 @@ public final class MeasureHelper {
                             height = (int) (width / displayAspectRatio);
                         }
                         break;
-                    case IRenderView.AR_ASPECT_WRAP_CONTENT:
+                    case IRenderView.AR_WRAP_CONTENT:
                     default:
                         if (shouldBeWider) {
                             // too wide, fix width
@@ -222,13 +208,13 @@ public final class MeasureHelper {
     public static String getAspectRatioText(Context context, int aspectRatio) {
         String text;
         switch (aspectRatio) {
-            case IRenderView.AR_ASPECT_FIT_PARENT:
+            case IRenderView.AR_FIT_PARENT:
                 text = context.getString(R.string.VideoView_ar_aspect_fit_parent);
                 break;
-            case IRenderView.AR_ASPECT_FILL_PARENT:
+            case IRenderView.AR_FILL_PARENT:
                 text = context.getString(R.string.VideoView_ar_aspect_fill_parent);
                 break;
-            case IRenderView.AR_ASPECT_WRAP_CONTENT:
+            case IRenderView.AR_WRAP_CONTENT:
                 text = context.getString(R.string.VideoView_ar_aspect_wrap_content);
                 break;
             case IRenderView.AR_MATCH_PARENT:

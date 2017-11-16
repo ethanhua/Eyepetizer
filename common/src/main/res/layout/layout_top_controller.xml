@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_top_controller"
@@ -10,7 +10,8 @@
     android:padding="6dp"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    tools:layout_width="match_parent">
 
     <ImageButton
         android:id="@+id/btn_nav_back"
@@ -18,7 +19,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
         android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_arrow_back_white_24dp" />
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -27,5 +31,19 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btn_nav_back"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="这里是视频标题" />
-</LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_clip_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/sel_btn_ar_adjust_screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

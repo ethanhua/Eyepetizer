@@ -7,10 +7,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.ethanhua.commonlib.media.VideoUrlSource;
 import com.ethanhua.commonlib.viewmodel.ViewModel;
 import com.ethanhua.domain.model.ItemData;
+import com.ethanhua.domain.model.PlayInfo;
 import com.ethanhua.domain.model.VideoData;
 import com.ethanhua.domain.model.VideoListData;
+
+import java.util.List;
 
 /**
  * Created by ethanhua on 2017/9/15.
@@ -35,6 +39,7 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
     public final ObservableField<String> authorName = new ObservableField<>();
     public final ObservableField<String> authorIntro = new ObservableField<>();
     public final ObservableField<String> authorAvatar = new ObservableField<>();
+    public final ObservableField<VideoUrlSource> videoUrlSource = new ObservableField<>();
 
     public VideoBaseVM() {
 
@@ -59,6 +64,7 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
         collectionCount.set(in.readInt());
         shareCount.set(in.readInt());
         replyCount.set(in.readInt());
+        videoUrlSource.set(in.readParcelable(VideoUrlSource.class.getClassLoader()));
     }
 
     public static final Creator<VideoBaseVM> CREATOR = new Creator<VideoBaseVM>() {
@@ -131,6 +137,7 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
             videoBaseVM.authorName.set(videoListData.author.name);
             videoBaseVM.authorIntro.set(videoListData.author.description);
         }
+        videoBaseVM.videoUrlSource.set(mapPlayInfoToUrlSource(videoListData.playInfo));
         return videoBaseVM;
     }
 
@@ -144,6 +151,7 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
             videoBaseVM.coverUrl.set(itemDataContent.data.cover.feed);
             videoBaseVM.blurredUrl.set(itemDataContent.data.cover.blurred);
         }
+        videoBaseVM.videoUrlSource.set(mapPlayInfoToUrlSource(itemDataContent.data.playInfo));
         videoBaseVM.imageUrl.set(itemDataContent.data.image);
         videoBaseVM.actionUrl = itemDataContent.data.actionUrl;
         videoBaseVM.slogan.set(itemDataContent.data.slogan);
@@ -199,5 +207,27 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
         parcel.writeInt(collectionCount.get());
         parcel.writeInt(shareCount.get());
         parcel.writeInt(replyCount.get());
+        parcel.writeParcelable(videoUrlSource.get(), i);
+    }
+
+
+    private static VideoUrlSource mapPlayInfoToUrlSource(List<PlayInfo> playInfoList) {
+        VideoUrlSource videoUrlSource = new VideoUrlSource();
+        if (playInfoList != null && playInfoList.size() > 0) {
+            for (int i = 0; i < playInfoList.size(); i++) {
+                if (PlayInfo.TYPE_HIGH.equals(playInfoList.get(i).type)) {
+                    videoUrlSource.highUrl = playInfoList.get(i).url;
+                    continue;
+                }
+                if (PlayInfo.TYPE_NORMAL.equals(playInfoList.get(i).type)) {
+                    videoUrlSource.normalUrl = playInfoList.get(i).url;
+                    continue;
+                }
+                if (PlayInfo.TYPE_LOW.equals(playInfoList.get(i).type)) {
+                    videoUrlSource.lowUrl = playInfoList.get(i).url;
+                }
+            }
+        }
+        return videoUrlSource;
     }
 }

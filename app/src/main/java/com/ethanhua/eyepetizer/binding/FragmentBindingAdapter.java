@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.ethanhua.commonlib.media.IjkVideoViewEx;
+import com.ethanhua.commonlib.media.MediaPlayerView;
 
 import javax.inject.Inject;
 
@@ -45,7 +45,7 @@ public class FragmentBindingAdapter extends AbsBindingAdapter {
     }
 
     @Override
-    public void bindVideoCoverImage(IjkVideoViewEx ijkVideoViewEx,
+    public void bindVideoCoverImage(MediaPlayerView mediaPlayerView,
                                     String url) {
         Glide.with(fragment)
                 .load(url)
@@ -53,7 +53,7 @@ public class FragmentBindingAdapter extends AbsBindingAdapter {
                     @Override
                     public void onResourceReady(Drawable resource,
                                                 Transition<? super Drawable> transition) {
-                        ijkVideoViewEx.getCoverImageView().setImageDrawable(resource);
+                        mediaPlayerView.getCoverView().setBackgroundDrawable(resource);
                     }
                 });
     }

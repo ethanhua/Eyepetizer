@@ -55,6 +55,16 @@
         tools:text="12:00" />
 
     <ImageButton
+        android:id="@+id/btn_quality_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="6dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_media_quality_high"
+        android:visibility="gone" />
+
+    <ImageButton
         android:id="@+id/btn_fullscreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

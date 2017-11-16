@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quality_ratio_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/shape_video_bg"
+    android:checkedButton="@+id/High"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/bd"
+        style="@style/VideoQualityButton"
+        android:button="@drawable/ic_media_quality_bd" />
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/supperHigh"
+        style="@style/VideoQualityButton"
+        android:button="@drawable/ic_media_quality_super" />
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/high"
+        style="@style/VideoQualityButton"
+        android:button="@drawable/ic_media_quality_high" />
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/normal"
+        style="@style/VideoQualityButton"
+        android:button="@drawable/ic_media_quality_medium" />
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/low"
+        style="@style/VideoQualityButton"
+        android:button="@drawable/ic_media_quality_smooth" />
+</RadioGroup>

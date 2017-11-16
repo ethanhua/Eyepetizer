@@ -1,4 +1,4 @@
-package com.ethanhua.commonlib.originmedia;
+package com.ethanhua.commonlib.media;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -8,6 +8,8 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -30,9 +32,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.ethanhua.commonlib.R;
-import com.ethanhua.commonlib.media.FileMediaDataSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +48,7 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkTimedText;
 import tv.danmaku.ijk.media.player.misc.IMediaDataSource;
 
-import static com.ethanhua.commonlib.originmedia.IRenderView.ClipStyle;
+import static com.ethanhua.commonlib.media.IRenderView.ClipStyle;
 
 /**
  * Created by ethanhua on 2017/11/7.
@@ -55,7 +57,7 @@ import static com.ethanhua.commonlib.originmedia.IRenderView.ClipStyle;
 public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, LifecycleObserver {
 
     private String TAG = MediaPlayerView.class.getSimpleName();
-    private Uri mUri;
+    private Uri mUri = null;
     private Map<String, String> mHeaders;
     public static final int RENDER_SURFACE_VIEW = 1;
     public static final int RENDER_TEXTURE_VIEW = 2;
@@ -93,13 +95,13 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private String originDimensionRatio = "";
     private int originHeight;
     private int originScreenPixels;
-    private IMediaControllerView mMediaControllerView;
+    private IMediaController mMediaControllerView;
     private IMediaPlayer.OnPreparedListener mOnPreparedListener;
     private IMediaPlayer.OnErrorListener mOnErrorListener;
     private IMediaPlayer.OnInfoListener mOnInfoListener;
     private IMediaPlayer.OnCompletionListener mOnCompletionListener;
     private int mCurrentBufferPercentage;
-    private int mSeekWhenPrepared;  // recording the seek position while preparing
+    private int mSeekWhenPrepared;
     private boolean mCanPause = true;
     private boolean mCanSeekBack = true;
     private boolean mCanSeekForward = true;
@@ -108,8 +110,8 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private Activity mAttachActivity;
     private int mRenderViewType = RENDER_TEXTURE_VIEW;
     private IRenderView mRenderView;
-    private int mClipStyle;
-    // All the stuff we need for playing and showing a video
+    private int mClipStyle;//视频裁剪样式
+
     private IRenderView.ISurfaceHolder mSurfaceHolder = null;
     private int mMediaPlayerType = PLAYER_IJK_MEDIA_PLAYER;
     private IMediaPlayer mMediaPlayer;
@@ -122,10 +124,13 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private long mSeekStartTime = 0;
     private long mSeekEndTime = 0;
 
+    private View mCoverView;
+    private ProgressBar mLoadingView;
+
     /**
      * IjkPlayer config
      */
-    private boolean mIsUsingMediaCodec;
+    private boolean mIsUsingMediaCodec;//是否使用硬解码
     private boolean mIsUsingMediaCodecAutoRotate;
     private boolean mIsMediaCodecHandleResolutionChange;
     private boolean mIsUsingOpenSLES;
@@ -165,9 +170,28 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
             throw new IllegalArgumentException("Context must be AppCompatActivity");
         }
         setRenderView(createRenderView(mRenderViewType));
+        setCoverView();
+        setLoadingView();
         setFocusable(true);
         setFocusableInTouchMode(true);
         requestFocus();
+    }
+
+    private void setLoadingView() {
+        mLoadingView = new ProgressBar(getContext(), null, android.R.attr.progressBarStyle);
+        LayoutParams layoutParam = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER);
+        mLoadingView.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        addView(mLoadingView, layoutParam);
+    }
+
+    private void setCoverView() {
+        mCoverView = new View(getContext());
+        addView(mCoverView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     private void setRenderView(IRenderView renderView) {
@@ -296,6 +320,13 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                             mRenderView.setVideoSize(mVideoWidth, mVideoHeight);
                             mRenderView.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen);
                         }
+                        if (mLoadingView != null) {
+                            Log.e(TAG, "dismiss loading");
+                            mLoadingView.setVisibility(GONE);
+                        }
+                        if (mCoverView != null) {
+                            mCoverView.setBackground(null);
+                        }
                         requestLayout();
                     }
                 }
@@ -417,6 +448,13 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
         @Override
         public void onSeekComplete(IMediaPlayer mp) {
             Log.e(TAG, "on seek complete");
+            if (mLoadingView != null) {
+                Log.e(TAG, "dismiss loading");
+                mLoadingView.setVisibility(GONE);
+            }
+            if (mCoverView != null) {
+                mCoverView.setBackground(null);
+            }
             mSeekEndTime = System.currentTimeMillis();
         }
     };
@@ -611,15 +649,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                 mCurrentState != STATE_PREPARING);
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent ev) {
-//        Log.e(TAG, "on touch");
-//        if (isInPlaybackState() && mMediaControllerView != null) {
-//            switchControllerViewVisible();
-//        }
-//        return false;
-//    }
-
     @Override
     public boolean onTrackballEvent(MotionEvent ev) {
         if (isInPlaybackState() && mMediaControllerView != null) {
@@ -804,6 +833,9 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
      */
     private void setVideoURI(Uri uri, Map<String, String> headers) {
         if (mUri == uri) {
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(GONE);
+            }
             return;
         }
         mUri = uri;
@@ -903,6 +935,9 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
 
     @Override
     public void seekTo(int pos) {
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(VISIBLE);
+        }
         if (isInPlaybackState()) {
             mSeekStartTime = System.currentTimeMillis();
             mMediaPlayer.seekTo(pos);
@@ -946,6 +981,11 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
             return mMediaPlayer.getAudioSessionId();
         }
         return 0;
+    }
+
+    @Override
+    public View getCoverView() {
+        return mCoverView;
     }
 
     @Override
@@ -1019,12 +1059,13 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
      *
      * @param uri the URI of the video.
      */
+    @Override
     public void setVideoURI(Uri uri) {
         Log.e(TAG, "set Video uri:" + (uri == null ? "null" : uri.toString()));
         setVideoURI(uri, null);
     }
 
-    public void setMediaControllerView(IMediaControllerView mediaControllerView) {
+    public void setMediaControllerView(IMediaController mediaControllerView) {
         mMediaControllerView = mediaControllerView;
         attachMediaController();
     }
@@ -1070,4 +1111,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     public void setOnInfoListener(IMediaPlayer.OnInfoListener l) {
         mOnInfoListener = l;
     }
+
+
 }

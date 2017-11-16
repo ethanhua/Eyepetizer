@@ -16,6 +16,10 @@ public class PlayInfo {
      * url : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=7362&editionType=low&source=qcloud
      */
 
+    public static final String TYPE_HIGH = "high";
+    public static final String TYPE_NORMAL = "normal";
+    public static final String TYPE_LOW = "low";
+
     public int height;
     public int width;
     public String name;

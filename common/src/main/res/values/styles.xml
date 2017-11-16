@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 屏幕宽高比选项 -->
+    <style name="AspectRatioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="VideoQualityButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <style name="PopupDownAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_down_enter</item>
+        <item name="android:windowExitAnimation">@anim/pop_up_exit</item>
+    </style>
+
+    <style name="PopupUpAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_up_enter</item>
+        <item name="android:windowExitAnimation">@anim/pop_down_exit</item>
+    </style>
+</resources>

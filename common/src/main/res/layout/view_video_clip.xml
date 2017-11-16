@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aspect_ratio_group"
+    android:layout_width="44dp"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:background="@color/media_controller_bg"
+    android:checkedButton="@+id/aspect_fit_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RadioButton
+        android:id="@+id/aspect_fit_parent"
+        style="@style/AspectRatioButton"
+        android:background="@drawable/sel_btn_ar_adjust_screen" />
+
+    <RadioButton
+        android:id="@+id/aspect_fit_screen"
+        style="@style/AspectRatioButton"
+        android:background="@drawable/sel_btn_ar_adjust_video" />
+
+    <RadioButton
+        android:id="@+id/aspect_16_and_9"
+        style="@style/AspectRatioButton"
+        android:background="@drawable/sel_btn_ar_16_9" />
+
+    <RadioButton
+        android:id="@+id/aspect_4_and_3"
+        style="@style/AspectRatioButton"
+        android:background="@drawable/sel_btn_ar_4_3" />
+</RadioGroup>

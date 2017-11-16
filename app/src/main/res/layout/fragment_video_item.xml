@@ -17,7 +17,7 @@
         android:onClick="@{(view)->NavigationViewModel.startVideoDetailsOnAnim(view,vm)}"
         android:transitionName="share">
 
-        <com.ethanhua.commonlib.media.IjkVideoViewEx
+        <com.ethanhua.commonlib.media.MediaPlayerView
             android:id="@+id/video_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
