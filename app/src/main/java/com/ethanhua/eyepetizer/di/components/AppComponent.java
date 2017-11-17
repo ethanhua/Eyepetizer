@@ -9,7 +9,7 @@ import com.ethanhua.domain.respository.CategoryRepository;
 import com.ethanhua.domain.respository.CommentRepository;
 import com.ethanhua.domain.respository.HotSearchTagRepository;
 import com.ethanhua.domain.respository.VideoRepository;
-import com.ethanhua.eyepetizer.di.modules.ApplicationModule;
+import com.ethanhua.eyepetizer.di.modules.AppModule;
 
 import javax.inject.Singleton;
 
@@ -20,8 +20,8 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = ApplicationModule.class)
-public interface ApplicationComponent {
+@Component(modules = AppModule.class)
+public interface AppComponent {
 
     Application getApplication();
 

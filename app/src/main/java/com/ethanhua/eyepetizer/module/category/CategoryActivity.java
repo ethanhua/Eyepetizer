@@ -33,7 +33,8 @@ public class CategoryActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerActivityComponent.builder().applicationComponent(getAppComponent())
+        DaggerActivityComponent.builder()
+                .appComponent(getAppComponent())
                 .activityModule(getActivityModule())
                 .build()
                 .inject(this);

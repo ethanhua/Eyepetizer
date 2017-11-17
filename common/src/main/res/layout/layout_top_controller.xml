@@ -36,6 +36,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="这里是视频标题" />
 
+    <TextView
+        android:id="@+id/tv_player_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="播放器"
+        android:textColor="@color/colorWhite"
+        android:layout_marginRight="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_clip_style"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/btn_clip_style"
         android:layout_width="wrap_content"

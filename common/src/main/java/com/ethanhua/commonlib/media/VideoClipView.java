@@ -11,6 +11,12 @@ import android.widget.RadioGroup;
 
 import com.ethanhua.commonlib.R;
 
+import static com.ethanhua.commonlib.media.IRenderView.AR_16_9_FIT_PARENT;
+import static com.ethanhua.commonlib.media.IRenderView.AR_4_3_FIT_PARENT;
+import static com.ethanhua.commonlib.media.IRenderView.AR_FILL_PARENT;
+import static com.ethanhua.commonlib.media.IRenderView.AR_FIT_PARENT;
+import static com.ethanhua.commonlib.media.IRenderView.ClipStyle;
+
 /**
  * Created by ethanhua on 2017/11/16.
  * <p>
@@ -34,32 +40,27 @@ public class VideoClipView extends PopupWindow {
                     @Override
                     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                         dismiss();
+                        if (mOnClipStyleSelectedListener == null) {
+                            return;
+                        }
                         if (checkedId == R.id.aspect_fit_parent) {
-                            if (mOnClipStyleSelectedListener != null) {
-                                mOnClipStyleSelectedListener.onClipStyleSelected(IRenderView.AR_FIT_PARENT);
-                            }
+                            mOnClipStyleSelectedListener.onClipStyleSelected(AR_FIT_PARENT);
                         } else if (checkedId == R.id.aspect_fit_screen) {
-                            if (mOnClipStyleSelectedListener != null) {
-                                mOnClipStyleSelectedListener.onClipStyleSelected(IRenderView.AR_FILL_PARENT);
-                            }
+                            mOnClipStyleSelectedListener.onClipStyleSelected(AR_FILL_PARENT);
                         } else if (checkedId == R.id.aspect_16_and_9) {
-                            if (mOnClipStyleSelectedListener != null) {
-                                mOnClipStyleSelectedListener.onClipStyleSelected(IRenderView.AR_16_9_FIT_PARENT);
-                            }
+                            mOnClipStyleSelectedListener.onClipStyleSelected(AR_16_9_FIT_PARENT);
                         } else if (checkedId == R.id.aspect_4_and_3) {
-                            if (mOnClipStyleSelectedListener != null) {
-                                mOnClipStyleSelectedListener.onClipStyleSelected(IRenderView.AR_4_3_FIT_PARENT);
-                            }
+                            mOnClipStyleSelectedListener.onClipStyleSelected(AR_4_3_FIT_PARENT);
                         }
                     }
                 });
     }
 
     public interface OnClipStyleSelectedListener {
-        void onClipStyleSelected(@IRenderView.ClipStyle int clipStyle);
+        void onClipStyleSelected(@ClipStyle int clipStyle);
     }
 
-    public void setOnClipStyleSelectedListener(OnClipStyleSelectedListener onClipStyleSelectedListener) {
-        mOnClipStyleSelectedListener = onClipStyleSelectedListener;
+    public void setOnClipStyleSelectedListener(OnClipStyleSelectedListener clipStyleSelectedListener) {
+        mOnClipStyleSelectedListener = clipStyleSelectedListener;
     }
 }

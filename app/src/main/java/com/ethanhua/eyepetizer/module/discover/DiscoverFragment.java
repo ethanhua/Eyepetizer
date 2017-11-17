@@ -46,6 +46,7 @@ public class DiscoverFragment extends BaseFragment {
                 mTitles);
         binding.layoutTab.setupWithViewPager(binding.viewPager);
         binding.viewPager.setAdapter(mFragmentAdapter);
+        binding.viewPager.setCanScroll(false);
         return binding.getRoot();
     }
 

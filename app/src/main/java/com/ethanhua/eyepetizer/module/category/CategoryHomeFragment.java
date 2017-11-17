@@ -45,7 +45,7 @@ public class CategoryHomeFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerFragmentComponent.builder()
-                .applicationComponent(getAppComponent())
+                .appComponent(getAppComponent())
                 .fragmentModule(getFragmentModule())
                 .build()
                 .inject(this);

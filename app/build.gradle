@@ -65,6 +65,8 @@ dependencies {
     compile presentationDependencies.circleImageView
     compile presentationDependencies.videocache
     compile presentationDependencies.flexbox
+    debugCompile presentationDependencies.leakCanary_debug
+    releaseCompile presentationDependencies.leakCanary_release
     annotationProcessor presentationDependencies.daggerCompiler
     testCompile domainTestDependencies.junit
 }

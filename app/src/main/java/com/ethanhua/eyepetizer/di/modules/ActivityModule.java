@@ -2,10 +2,6 @@ package com.ethanhua.eyepetizer.di.modules;
 
 import android.app.Activity;
 
-import com.ethanhua.commonlib.media.IMediaController;
-import com.ethanhua.commonlib.media.MediaControllerView;
-import com.ethanhua.eyepetizer.di.PerActivity;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -25,9 +21,4 @@ public class ActivityModule {
         return mActivity;
     }
 
-    @PerActivity
-    @Provides
-    IMediaController provideMediaController() {
-        return new MediaControllerView(mActivity);
-    }
 }

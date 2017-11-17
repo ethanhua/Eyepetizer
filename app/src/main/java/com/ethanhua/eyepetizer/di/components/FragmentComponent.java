@@ -3,12 +3,12 @@ package com.ethanhua.eyepetizer.di.components;
 import android.support.v4.app.Fragment;
 
 import com.ethanhua.eyepetizer.BaseFragment;
+import com.ethanhua.eyepetizer.di.PerActivity;
+import com.ethanhua.eyepetizer.di.modules.FragmentModule;
 import com.ethanhua.eyepetizer.module.category.CategoryAlbumFragment;
 import com.ethanhua.eyepetizer.module.category.CategoryAllFragment;
 import com.ethanhua.eyepetizer.module.category.CategoryAuthorFragment;
 import com.ethanhua.eyepetizer.module.category.CategoryHomeFragment;
-import com.ethanhua.eyepetizer.di.PerActivity;
-import com.ethanhua.eyepetizer.di.modules.FragmentModule;
 import com.ethanhua.eyepetizer.module.discover.CategoryFragment;
 import com.ethanhua.eyepetizer.module.discover.HotFragment;
 import com.ethanhua.eyepetizer.module.home.HomeFragment;
@@ -22,12 +22,10 @@ import dagger.Component;
  * Created by ethanhua on 2017/9/16.
  */
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = {FragmentModule.class})
+@Component(dependencies = AppComponent.class, modules = {FragmentModule.class})
 public interface FragmentComponent {
 
     Fragment getFragment();
-
-    void inject(Fragment fragment);
 
     void inject(BaseFragment fragment);
 

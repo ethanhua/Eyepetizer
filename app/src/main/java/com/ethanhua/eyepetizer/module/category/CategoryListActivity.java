@@ -29,7 +29,7 @@ public class CategoryListActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerActivityComponent.builder()
-                .applicationComponent(getAppComponent())
+                .appComponent(getAppComponent())
                 .activityModule(getActivityModule())
                 .build()
                 .inject(this);

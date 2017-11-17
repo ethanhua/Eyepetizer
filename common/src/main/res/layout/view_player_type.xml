@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/player_type_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/shape_video_bg"
+    android:checkedButton="@+id/btn_bili"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RadioButton
+        android:id="@+id/btn_bili"
+        style="@style/AspectRatioButton"
+        android:text="bilibili"
+        android:textColor="@color/color_red_tint" />
+
+    <RadioButton
+        android:id="@+id/btn_exo"
+        style="@style/AspectRatioButton"
+        android:text="谷歌exo"
+        android:textColor="@color/color_red_tint" />
+
+    <RadioButton
+        android:id="@+id/btn_android"
+        style="@style/AspectRatioButton"
+        android:text="原生"
+        android:textColor="@color/color_red_tint" />
+</RadioGroup>

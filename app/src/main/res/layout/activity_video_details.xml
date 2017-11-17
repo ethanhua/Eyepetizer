@@ -31,11 +31,12 @@
             android:id="@+id/media_controller_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            bind:urlSource="@{vm.baseVM.videoUrlSource}"
             app:layout_constraintBottom_toBottomOf="@id/video_view"
             app:layout_constraintLeft_toLeftOf="@+id/video_view"
             app:layout_constraintRight_toRightOf="@+id/video_view"
-            app:layout_constraintTop_toTopOf="@id/video_view" />
+            app:layout_constraintTop_toTopOf="@id/video_view"
+            bind:title="@{vm.baseVM.title}"
+            bind:urlSource="@{vm.baseVM.videoUrlSource}" />
 
         <FrameLayout
             android:id="@+id/layout_container"

@@ -35,11 +35,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by ethanhua on 2017/9/16.
  */
 @Module
-public class ApplicationModule {
+public class AppModule {
 
     private final EyeApplication application;
 
-    public ApplicationModule(EyeApplication application) {
+    public AppModule(EyeApplication application) {
         this.application = application;
     }
 

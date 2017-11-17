@@ -40,7 +40,7 @@ public class SubscriptionFragment extends BaseFragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         DaggerFragmentComponent.builder()
-                .applicationComponent(getAppComponent())
+                .appComponent(getAppComponent())
                 .fragmentModule(getFragmentModule())
                 .build().inject(this);
         FragmentFollowBinding binding = DataBindingUtil.inflate(inflater,

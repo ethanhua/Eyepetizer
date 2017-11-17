@@ -6,7 +6,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -21,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -33,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ethanhua.commonlib.R;
 
@@ -68,9 +67,9 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     public @interface RenderViewType {
     }
 
-    private static final int PLAYER_IJKEXO_MEDIA_PLAYER = 0;
-    private static final int PLAYER_ANDROID_MEDIA_PLAYER = 1;
-    private static final int PLAYER_IJK_MEDIA_PLAYER = 2;
+    public static final int PLAYER_IJKEXO_MEDIA_PLAYER = 0;
+    public static final int PLAYER_ANDROID_MEDIA_PLAYER = 1;
+    public static final int PLAYER_IJK_MEDIA_PLAYER = 2;
 
     @IntDef({PLAYER_IJKEXO_MEDIA_PLAYER,
             PLAYER_ANDROID_MEDIA_PLAYER,
@@ -131,8 +130,8 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
      * IjkPlayer config
      */
     private boolean mIsUsingMediaCodec;//是否使用硬解码
-    private boolean mIsUsingMediaCodecAutoRotate;
-    private boolean mIsMediaCodecHandleResolutionChange;
+    private boolean mIsUsingMediaCodecAutoRotate = true;
+    private boolean mIsMediaCodecHandleResolutionChange = true;
     private boolean mIsUsingOpenSLES;
     private boolean mIsUsingMediaDataSource;
     private String mPixelFormat = "";
@@ -247,7 +246,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                 break;
             }
             default:
-                Log.e(TAG, String.format(Locale.getDefault(), "invalid render %d\n", renderViewType));
+                Log.d(TAG, String.format(Locale.getDefault(), "invalid render %d\n", renderViewType));
                 break;
         }
         return renderView;
@@ -262,7 +261,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
             new IMediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(IMediaPlayer iMediaPlayer) {
-                    Log.e(TAG, "media player on prepared");
+                    Log.d(TAG, "media player on prepared");
                     mPrepareEndTime = System.currentTimeMillis();
                     mCurrentState = STATE_PREPARED;
                     notifyStateChange();
@@ -313,7 +312,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
             new IMediaPlayer.OnVideoSizeChangedListener() {
                 @Override
                 public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
-                    Log.e(TAG, "media player on videoSize changed:" + i + "-" + i1 + "-" + i2 + "-" + i3);
+                    Log.d(TAG, "media player on videoSize changed:" + i + "-" + i1 + "-" + i2 + "-" + i3);
                     mapVideoSize(iMediaPlayer);
                     if (mVideoWidth != 0 && mVideoHeight != 0) {
                         if (mRenderView != null) {
@@ -321,7 +320,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                             mRenderView.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen);
                         }
                         if (mLoadingView != null) {
-                            Log.e(TAG, "dismiss loading");
+                            Log.d(TAG, "dismiss loading");
                             mLoadingView.setVisibility(GONE);
                         }
                         if (mCoverView != null) {
@@ -414,22 +413,13 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                         } else {
                             messageId = R.string.VideoView_error_text_unknown;
                         }
-
-                        new AlertDialog.Builder(getContext())
-                                .setMessage(messageId)
-                                .setPositiveButton(R.string.VideoView_error_button,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                            /* If we get here, there is no onError listener, so
-                                             * at least inform them that the video is over.
-                                             */
-                                                if (mOnCompletionListener != null) {
-                                                    mOnCompletionListener.onCompletion(mMediaPlayer);
-                                                }
-                                            }
-                                        })
-                                .setCancelable(false)
+                        Toast.makeText(mAttachActivity,
+                                getResources().getString(messageId),
+                                Toast.LENGTH_LONG)
                                 .show();
+                        if (mOnCompletionListener != null) {
+                            mOnCompletionListener.onCompletion(mMediaPlayer);
+                        }
                     }
                     return true;
                 }
@@ -438,7 +428,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private IMediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
             new IMediaPlayer.OnBufferingUpdateListener() {
                 public void onBufferingUpdate(IMediaPlayer mp, int percent) {
-                    // Log.e(TAG, "on buffering update:" + percent);
+                    // Log.d(TAG, "on buffering update:" + percent);
                     mCurrentBufferPercentage = percent;
                 }
             };
@@ -447,9 +437,8 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
 
         @Override
         public void onSeekComplete(IMediaPlayer mp) {
-            Log.e(TAG, "on seek complete");
+            Log.d(TAG, "on seek complete");
             if (mLoadingView != null) {
-                Log.e(TAG, "dismiss loading");
                 mLoadingView.setVisibility(GONE);
             }
             if (mCoverView != null) {
@@ -462,10 +451,10 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private IMediaPlayer.OnTimedTextListener mOnTimedTextListener = new IMediaPlayer.OnTimedTextListener() {
         @Override
         public void onTimedText(IMediaPlayer mp, IjkTimedText text) {
-            Log.e(TAG, "onTimedText:" + mp.getCurrentPosition());
+            Log.d(TAG, "onTimedText:" + mp.getCurrentPosition());
 
             if (text != null) {
-                Log.e(TAG, "onTimedText:" + text.getText());
+                Log.d(TAG, "onTimedText:" + text.getText());
             }
         }
     };
@@ -473,7 +462,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private IMediaPlayer.OnCompletionListener mCompletionListener =
             new IMediaPlayer.OnCompletionListener() {
                 public void onCompletion(IMediaPlayer mp) {
-                    Log.e(TAG, "media player on Completion");
                     mCurrentState = STATE_PLAYBACK_COMPLETED;
                     mTargetState = STATE_PLAYBACK_COMPLETED;
                     notifyStateChange();
@@ -486,9 +474,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                 }
             };
 
-    /**
-     * ********************** RenderView Callback  ****************************
-     */
     private IRenderView.IRenderCallback mRenderCallback = new IRenderView.IRenderCallback() {
         @Override
         public void onSurfaceChanged(@NonNull IRenderView.ISurfaceHolder holder,
@@ -496,7 +481,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                                      int w,
                                      int h) {
             if (holder.getRenderView() != mRenderView) {
-                Log.e(TAG, "onSurfaceChanged: unmatched render callback\n");
+                Log.d(TAG, "onSurfaceChanged: unmatched render callback\n");
                 return;
             }
 
@@ -518,7 +503,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                                      int width,
                                      int height) {
             if (holder.getRenderView() != mRenderView) {
-                Log.e(TAG, "onSurfaceCreated: unmatched render callback\n");
+                Log.d(TAG, "onSurfaceCreated: unmatched render callback\n");
                 return;
             }
             mSurfaceHolder = holder;
@@ -532,7 +517,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
         @Override
         public void onSurfaceDestroyed(@NonNull IRenderView.ISurfaceHolder holder) {
             if (holder.getRenderView() != mRenderView) {
-                Log.e(TAG, "onSurfaceDestroyed: unmatched render callback\n");
+                Log.d(TAG, "onSurfaceDestroyed: unmatched render callback\n");
                 return;
             }
 
@@ -693,7 +678,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                 ((ConstraintLayout.LayoutParams) layoutParams).dimensionRatio = originDimensionRatio;
             }
         }
-        Log.e(TAG, isFullscreen + "-" + layoutParams.height);
+        Log.d(TAG, isFullscreen + "-" + layoutParams.height);
         setLayoutParams(layoutParams);
     }
 
@@ -857,13 +842,13 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
         }
     }
 
+
     /**
      * ============================ 暴露给外面的接口 ===========================================
      */
 
-
     public void onConfigurationChanged(Configuration configuration) {
-        Log.e(TAG, "fullscreen switch");
+        Log.d(TAG, "fullscreen switch");
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Utils.showActionBar(getContext(), false);
             Utils.switchFullScreenFlag(mAttachActivity, true);
@@ -882,7 +867,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     @Override
     public void start() {
-        Log.e(TAG, "start");
+        Log.d(TAG, "start");
         if (isInPlaybackState()) {
             mMediaPlayer.start();
             mCurrentState = STATE_PLAYING;
@@ -894,7 +879,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     @Override
     public void pause() {
-        Log.e(TAG, "pause");
+        Log.d(TAG, "pause");
         if (isInPlaybackState()) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.pause();
@@ -907,7 +892,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void destroy() {
-        Log.e(TAG, "destroy");
+        Log.d(TAG, "destroy");
         release(true);
         IjkMediaPlayer.native_profileEnd();
     }
@@ -1013,14 +998,10 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
         if (mMediaPlayerType == mediaPlayerType) {
             return;
         }
-        mMediaPlayerType = mediaPlayerType;
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release();
-        }
-        if (mRenderView != null) {
-            mRenderView.getView().invalidate();
-        }
+        release(true);
+        setRenderView(createRenderView(mRenderViewType));
         openVideo();
+        start();
     }
 
     /**
@@ -1061,7 +1042,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
      */
     @Override
     public void setVideoURI(Uri uri) {
-        Log.e(TAG, "set Video uri:" + (uri == null ? "null" : uri.toString()));
+        Log.d(TAG, "set Video uri:" + (uri == null ? "null" : uri.toString()));
         setVideoURI(uri, null);
     }
 
@@ -1111,6 +1092,5 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     public void setOnInfoListener(IMediaPlayer.OnInfoListener l) {
         mOnInfoListener = l;
     }
-
 
 }

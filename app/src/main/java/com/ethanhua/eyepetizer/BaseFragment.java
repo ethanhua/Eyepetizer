@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.ethanhua.eyepetizer.binding.FragmentBindingComponent;
-import com.ethanhua.eyepetizer.di.components.ApplicationComponent;
+import com.ethanhua.eyepetizer.di.components.AppComponent;
 import com.ethanhua.eyepetizer.di.components.DaggerFragmentComponent;
 import com.ethanhua.eyepetizer.di.modules.FragmentModule;
 
@@ -24,7 +24,7 @@ public class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerFragmentComponent.builder()
-                .applicationComponent(getAppComponent())
+                .appComponent(getAppComponent())
                 .fragmentModule(getFragmentModule())
                 .build()
                 .inject(this);
@@ -33,11 +33,11 @@ public class BaseFragment extends Fragment {
     /**
      * Get the Main Application component for dependency injection.
      *
-     * @return {@link com.ethanhua.eyepetizer.di.components.ApplicationComponent}
+     * @return {@link AppComponent}
      */
-    protected ApplicationComponent getAppComponent() {
+    protected AppComponent getAppComponent() {
         if (getActivity() != null) {
-            return ((EyeApplication) getActivity().getApplication()).getApplicationComponent();
+            return ((EyeApplication) getActivity().getApplication()).getAppComponent();
         }
         return null;
     }

@@ -2,7 +2,7 @@ package com.ethanhua.eyepetizer;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.ethanhua.eyepetizer.di.components.ApplicationComponent;
+import com.ethanhua.eyepetizer.di.components.AppComponent;
 import com.ethanhua.eyepetizer.di.modules.ActivityModule;
 
 /**
@@ -14,10 +14,10 @@ public class BaseActivity extends AppCompatActivity{
     /**
      * Get the Main Application component for dependency injection.
      *
-     * @return {@link com.ethanhua.eyepetizer.di.components.ApplicationComponent}
+     * @return {@link AppComponent}
      */
-    protected ApplicationComponent getAppComponent() {
-        return ((EyeApplication) getApplication()).getApplicationComponent();
+    protected AppComponent getAppComponent() {
+        return ((EyeApplication) getApplication()).getAppComponent();
     }
 
     /**

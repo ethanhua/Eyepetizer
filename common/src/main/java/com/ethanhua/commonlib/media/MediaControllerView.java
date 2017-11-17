@@ -47,6 +47,7 @@ import static com.ethanhua.commonlib.media.IMediaPlayerView.STATE_PREPARING;
  * 5 滑动快进快退及拖动进度条快进或快退
  * 6 视频源清晰度切换
  * 7 视频画面显示比例切换
+ * 8 播放器切换
  */
 
 public class MediaControllerView
@@ -66,14 +67,20 @@ public class MediaControllerView
     private ViewGroup layoutBottomController;
 
     private SeekBar progressSeekBar;
-    private TextView tvTitle;
+    private TextView tvTitle; //视频标题
     private TextView tvCurrentTime;//当前播放进度时间点
     private TextView tvDurationTime;//视频时长时间
-    private VideoClipView mVideoClipView;//画面比例（视频裁剪）控制选择View
+
     private ImageButton btnClipStyle; //画面比例（视频裁剪）控制
+    private VideoClipView mVideoClipView;//画面比例（视频裁剪）控制选择View
+
     private ImageButton btnQualityType; //视频源切换 （1080p/超清/高清/标清/流畅）
     private VideoQualityView mVideoQualityView;//视频源切换选择View
-    private VideoUrlSource mVideoUrlSource;
+    private VideoUrlSource mVideoUrlSource;//视频源地址
+
+    private TextView tvPlayerType;//播放器切换(ijk/exo/原生mediaPlayer)
+    private VideoPlayerTypeView mVideoPlayerTypeView; //播放器切换选择View
+
     /**
      * 手势操作相关（声音、亮度、快进、快退控制） *****************************
      */
@@ -97,6 +104,7 @@ public class MediaControllerView
     private StringBuilder mFormatBuilder;
     private Formatter mFormatter;
     private AppCompatActivity mAttachActivity;
+
 
     public MediaControllerView(@NonNull Context context) {
         super(context);
@@ -145,15 +153,17 @@ public class MediaControllerView
         progressSeekBar = rootView.findViewById(R.id.seekBar_progress);
         tvCurrentTime = rootView.findViewById(R.id.tv_time_current);
         tvDurationTime = rootView.findViewById(R.id.tv_time);
-
+        tvTitle = rootView.findViewById(R.id.tv_title);
         layoutGesturesAction = rootView.findViewById(R.id.layout_gestures_action);
         tvVolume = rootView.findViewById(R.id.tv_volume);
         tvBrightness = rootView.findViewById(R.id.tv_brightness);
         tvFastForward = rootView.findViewById(R.id.tv_fast_forward);
         btnClipStyle = rootView.findViewById(R.id.btn_clip_style);
         btnQualityType = rootView.findViewById(R.id.btn_quality_type);
+        tvPlayerType = rootView.findViewById(R.id.tv_player_type);
         mVideoClipView = new VideoClipView(getContext());
         mVideoQualityView = new VideoQualityView(getContext());
+        mVideoPlayerTypeView = new VideoPlayerTypeView(getContext());
         mGestureDetector = new GestureDetector(mAttachActivity, simpleOnGestureListener);
         progressSeekBar.setMax(1000);
         progressSeekBar.setOnSeekBarChangeListener(mSeekListener);
@@ -166,8 +176,10 @@ public class MediaControllerView
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
         btnClipStyle.setOnClickListener(this);
         btnQualityType.setOnClickListener(this);
+        tvPlayerType.setOnClickListener(this);
         mVideoClipView.setOnClipStyleSelectedListener(mClipStyleSelectedListener);
         mVideoQualityView.setOnVideoSourceSelectedListener(mSourceSelectedListener);
+        mVideoPlayerTypeView.setPlayerTypeSelectedListener(mPlayerSelectedListener);
         // 声音
         mAudioManager = (AudioManager) mAttachActivity.getSystemService(Context.AUDIO_SERVICE);
         mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -295,6 +307,27 @@ public class MediaControllerView
         return currentPosition;
     }
 
+    /**
+     * 更新视频清晰度相关UI
+     */
+    private void updateUrlSourceUI() {
+        if (mVideoUrlSource == null || (mVideoUrlSource.isEmptyOrSingle())) {
+            btnQualityType.setVisibility(GONE);
+            return;
+        }
+        btnQualityType.setVisibility(VISIBLE);
+        mVideoQualityView.rbBd.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.bdUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbSupper.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.supperUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbHigh.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.highUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbNormal.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.normalUrl) ? GONE : VISIBLE);
+        mVideoQualityView.rbLow.setVisibility(
+                TextUtils.isEmpty(mVideoUrlSource.lowUrl) ? GONE : VISIBLE);
+    }
+
     private Runnable mUpdateProgressUIRunnable = new Runnable() {
         @Override
         public void run() {
@@ -353,8 +386,13 @@ public class MediaControllerView
 
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
-                    Log.e(TAG, "on single tap confirmed");
                     switchVisible();
+                    return true;
+                }
+
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    togglePlayer();
                     return true;
                 }
 
@@ -446,6 +484,13 @@ public class MediaControllerView
                     break;
             }
             mediaPlayerView.setVideoURI(Uri.parse(mVideoUrlSource.getUrlByQuality(qualityType)));
+        }
+    };
+
+    private VideoPlayerTypeView.OnPlayerTypeSelectedListener mPlayerSelectedListener = new VideoPlayerTypeView.OnPlayerTypeSelectedListener() {
+        @Override
+        public void onPlayerTypeSelected(@MediaPlayerView.PlayerType int playerType) {
+            mediaPlayerView.switchPlayer(playerType);
         }
     };
 
@@ -599,13 +644,10 @@ public class MediaControllerView
             return;
         }
         if (viewId == R.id.btn_clip_style) {
-            if (mVideoClipView == null) {
-
-            }
             if (mVideoClipView.isShowing()) {
                 mVideoClipView.dismiss();
             } else {
-                mVideoClipView.showAsDropDown(btnClipStyle, 0, btnClipStyle.getHeight());
+                mVideoClipView.showAsDropDown(v, 0, btnClipStyle.getHeight());
             }
             return;
         }
@@ -617,27 +659,14 @@ public class MediaControllerView
             }
             return;
         }
-    }
-
-    /**
-     * 更新视频清晰度相关UI
-     */
-    private void updateUrlSourceUI() {
-        if (mVideoUrlSource == null || (mVideoUrlSource.isEmptyOrSingle())) {
-            btnQualityType.setVisibility(GONE);
+        if (viewId == R.id.tv_player_type) {
+            if (mVideoPlayerTypeView.isShowing()) {
+                mVideoPlayerTypeView.dismiss();
+            } else {
+                mVideoPlayerTypeView.showAsDropDown(v, 0, tvPlayerType.getHeight());
+            }
             return;
         }
-        btnQualityType.setVisibility(VISIBLE);
-        mVideoQualityView.rbBd.setVisibility(
-                TextUtils.isEmpty(mVideoUrlSource.bdUrl) ? GONE : VISIBLE);
-        mVideoQualityView.rbSupper.setVisibility(
-                TextUtils.isEmpty(mVideoUrlSource.supperUrl) ? GONE : VISIBLE);
-        mVideoQualityView.rbHigh.setVisibility(
-                TextUtils.isEmpty(mVideoUrlSource.highUrl) ? GONE : VISIBLE);
-        mVideoQualityView.rbNormal.setVisibility(
-                TextUtils.isEmpty(mVideoUrlSource.normalUrl) ? GONE : VISIBLE);
-        mVideoQualityView.rbLow.setVisibility(
-                TextUtils.isEmpty(mVideoUrlSource.lowUrl) ? GONE : VISIBLE);
     }
 
     /**
@@ -699,5 +728,11 @@ public class MediaControllerView
     public void setUrlSource(VideoUrlSource videoUrlSource) {
         this.mVideoUrlSource = videoUrlSource;
         updateUrlSourceUI();
+    }
+
+    public void setTitle(String title) {
+        if (tvTitle != null && !TextUtils.isEmpty(title)) {
+            tvTitle.setText(title);
+        }
     }
 }

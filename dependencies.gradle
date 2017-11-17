@@ -32,6 +32,7 @@ ext {
     ijkplayerVersion = '0.8.4'
     videocacheVerision = '2.7.0'
     flexboxVerision = '0.3.1'
+    leakCanaryVersion = '1.5.4'
     //Testing
     robolectricVersion = '3.1.1'
     jUnitVersion = '4.12'
@@ -54,19 +55,21 @@ ext {
     ]
 
     presentationDependencies = [
-            daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger          : "com.google.dagger:dagger:${daggerVersion}",
-            glide           : "com.github.bumptech.glide:glide:${glideVersion}",
-            design          : "com.android.support:design:${supportLibVersion}",
-            cardview        : "com.android.support:cardview-v7:${supportLibVersion}",
-            palette         : "com.android.support:palette-v7:${supportLibVersion}",
-            constraintLayout: "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-            multitype       : "me.drakeet.multitype:multitype:${multitypeVersion}",
-            rxJava          : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxAndroid       : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            circleImageView : "de.hdodenhof:circleimageview:${circleImageViewVersion}",
-            videocache      : "com.danikula:videocache:${videocacheVerision}",
-            flexbox         : "com.google.android:flexbox:${flexboxVerision}"
+            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger            : "com.google.dagger:dagger:${daggerVersion}",
+            glide             : "com.github.bumptech.glide:glide:${glideVersion}",
+            design            : "com.android.support:design:${supportLibVersion}",
+            cardview          : "com.android.support:cardview-v7:${supportLibVersion}",
+            palette           : "com.android.support:palette-v7:${supportLibVersion}",
+            constraintLayout  : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            multitype         : "me.drakeet.multitype:multitype:${multitypeVersion}",
+            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid         : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            circleImageView   : "de.hdodenhof:circleimageview:${circleImageViewVersion}",
+            videocache        : "com.danikula:videocache:${videocacheVerision}",
+            flexbox           : "com.google.android:flexbox:${flexboxVerision}",
+            leakCanary_debug  : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+            leakCanary_release: "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
 //            javaxAnnotation : "javax.annotation:jsr250-api:${javaxAnnotationVersion}"
     ]
 

@@ -14,4 +14,5 @@
     <string name="please_input_key_string_to_find_more_video">输入标题或描述中的关键词找到更多视频</string>
     <string name="hot_search_tag">- 热门搜索词 -</string>
     <string name="ranking_list">排行榜</string>
+    <string name="category">分类</string>
 </resources>
