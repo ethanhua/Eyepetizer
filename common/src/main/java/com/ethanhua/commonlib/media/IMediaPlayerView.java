@@ -20,7 +20,6 @@ public interface IMediaPlayerView {
     int STATE_PLAYING = 303;
     int STATE_PAUSED = 304;
     int STATE_PLAYBACK_COMPLETED = 305;
-
     @IntDef({STATE_ERROR,
             STATE_IDLE,
             STATE_PREPARING,
@@ -28,8 +27,22 @@ public interface IMediaPlayerView {
             STATE_PLAYING,
             STATE_PAUSED,
             STATE_PLAYBACK_COMPLETED})
-    @interface State {
-    }
+    @interface State {}
+
+    int RENDER_SURFACE_VIEW = 1;
+    int RENDER_TEXTURE_VIEW = 2;
+    @IntDef({RENDER_SURFACE_VIEW,
+            RENDER_TEXTURE_VIEW})
+    @interface RenderViewType {}
+
+    int PLAYER_IJKEXO_MEDIA_PLAYER = 0;
+    int PLAYER_ANDROID_MEDIA_PLAYER = 1;
+    int PLAYER_IJK_MEDIA_PLAYER = 2;
+    @IntDef({PLAYER_IJKEXO_MEDIA_PLAYER,
+            PLAYER_ANDROID_MEDIA_PLAYER,
+            PLAYER_IJK_MEDIA_PLAYER})
+    @interface PlayerType {}
+
     void setVideoURI(Uri uri);
 
     int getDuration();
@@ -66,9 +79,9 @@ public interface IMediaPlayerView {
 
     void switchClipStyle(@IRenderView.ClipStyle int clipStyle);
 
-    void switchRenderView(@MediaPlayerView.RenderViewType int renderViewType);
+    void switchRenderView(@RenderViewType int renderViewType);
 
-    void switchPlayer(@MediaPlayerView.PlayerType int mediaPlayerType);
+    void switchPlayer(@PlayerType int mediaPlayerType);
 
     void setOnPreparedListener(IMediaPlayer.OnPreparedListener l);
 
@@ -77,6 +90,5 @@ public interface IMediaPlayerView {
     void setOnErrorListener(IMediaPlayer.OnErrorListener l);
 
     void setOnInfoListener(IMediaPlayer.OnInfoListener l);
-
 
 }

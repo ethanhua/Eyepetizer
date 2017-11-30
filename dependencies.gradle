@@ -51,6 +51,10 @@ ext {
             ijkplayerjava   : "tv.danmaku.ijk.media:ijkplayer-java:${ijkplayerVersion}",
             ijkplayerarm    : "tv.danmaku.ijk.media:ijkplayer-armv7a:${ijkplayerVersion}",
             ijkplayerexo    : "tv.danmaku.ijk.media:ijkplayer-exo:${ijkplayerVersion}",
+            ijkplayerarmv5  : "tv.danmaku.ijk.media:ijkplayer-armv5:${ijkplayerVersion}",
+            ijkplayerarm64  : "tv.danmaku.ijk.media:ijkplayer-arm64:${ijkplayerVersion}",
+            ijkplayerx86    : "tv.danmaku.ijk.media:ijkplayer-x86:${ijkplayerVersion}",
+            ijkplayerx86_64 : "tv.danmaku.ijk.media:ijkplayer-x86_64:${ijkplayerVersion}",
             multitype       : "me.drakeet.multitype:multitype:${multitypeVersion}",
     ]
 

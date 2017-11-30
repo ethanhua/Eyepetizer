@@ -483,7 +483,11 @@ public class MediaControllerView
                     btnQualityType.setImageResource(R.drawable.ic_media_quality_smooth);
                     break;
             }
+            int currentPosition = mediaPlayerView.getCurrentPosition();
             mediaPlayerView.setVideoURI(Uri.parse(mVideoUrlSource.getUrlByQuality(qualityType)));
+            //定位到当前播放位置
+            mediaPlayerView.seekTo(currentPosition);
+            hide();
         }
     };
 
@@ -491,6 +495,7 @@ public class MediaControllerView
         @Override
         public void onPlayerTypeSelected(@MediaPlayerView.PlayerType int playerType) {
             mediaPlayerView.switchPlayer(playerType);
+            hide();
         }
     };
 

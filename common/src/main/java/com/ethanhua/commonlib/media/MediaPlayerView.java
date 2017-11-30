@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.AttrRes;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -58,26 +57,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private String TAG = MediaPlayerView.class.getSimpleName();
     private Uri mUri = null;
     private Map<String, String> mHeaders;
-    public static final int RENDER_SURFACE_VIEW = 1;
-    public static final int RENDER_TEXTURE_VIEW = 2;
-
-
-    @IntDef({RENDER_SURFACE_VIEW,
-            RENDER_TEXTURE_VIEW})
-    public @interface RenderViewType {
-    }
-
-    public static final int PLAYER_IJKEXO_MEDIA_PLAYER = 0;
-    public static final int PLAYER_ANDROID_MEDIA_PLAYER = 1;
-    public static final int PLAYER_IJK_MEDIA_PLAYER = 2;
-
-    @IntDef({PLAYER_IJKEXO_MEDIA_PLAYER,
-            PLAYER_ANDROID_MEDIA_PLAYER,
-            PLAYER_IJK_MEDIA_PLAYER})
-    public @interface PlayerType {
-
-    }
-
     // mCurrentState is a VideoView object's current state.
     // mTargetState is the state that a method caller intends to reach.
     // For instance, regardless the VideoView object's current state,
@@ -116,13 +95,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     private IMediaPlayer mMediaPlayer;
     private int mVideoSarNum;
     private int mVideoSarDen;
-
-    private long mPrepareStartTime = 0;
-    private long mPrepareEndTime = 0;
-
-    private long mSeekStartTime = 0;
-    private long mSeekEndTime = 0;
-
     private View mCoverView;
     private ProgressBar mLoadingView;
 
@@ -168,7 +140,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
         } else {
             throw new IllegalArgumentException("Context must be AppCompatActivity");
         }
-        setRenderView(createRenderView(mRenderViewType));
         setCoverView();
         setLoadingView();
         setFocusable(true);
@@ -220,8 +191,7 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
         renderUIView.setLayoutParams(lp);
-        addView(renderUIView);
-
+        addView(renderUIView, 0);
         mRenderView.addRenderCallback(mRenderCallback);
         mRenderView.setVideoRotation(mVideoRotationDegree);
     }
@@ -262,7 +232,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                 @Override
                 public void onPrepared(IMediaPlayer iMediaPlayer) {
                     Log.d(TAG, "media player on prepared");
-                    mPrepareEndTime = System.currentTimeMillis();
                     mCurrentState = STATE_PREPARED;
                     notifyStateChange();
                     if (mOnPreparedListener != null) {
@@ -287,9 +256,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                             // start the video here instead of in the callback.
                             if (mTargetState == STATE_PLAYING) {
                                 start();
-                                if (mMediaControllerView != null) {
-                                    mMediaControllerView.show();
-                                }
                             } else if (!isPlaying() &&
                                     (seekToPosition != 0 || getCurrentPosition() > 0)) {
                                 if (mMediaControllerView != null) {
@@ -346,9 +312,15 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
                             break;
                         case IMediaPlayer.MEDIA_INFO_BUFFERING_START:
                             Log.d(TAG, "MEDIA_INFO_BUFFERING_START:");
+                            if (mLoadingView != null) {
+                                mLoadingView.setVisibility(VISIBLE);
+                            }
                             break;
                         case IMediaPlayer.MEDIA_INFO_BUFFERING_END:
                             Log.d(TAG, "MEDIA_INFO_BUFFERING_END:");
+                            if (mLoadingView != null) {
+                                mLoadingView.setVisibility(GONE);
+                            }
                             break;
                         case IMediaPlayer.MEDIA_INFO_NETWORK_BANDWIDTH:
                             Log.d(TAG, "MEDIA_INFO_NETWORK_BANDWIDTH: " + arg2);
@@ -444,7 +416,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
             if (mCoverView != null) {
                 mCoverView.setBackground(null);
             }
-            mSeekEndTime = System.currentTimeMillis();
         }
     };
 
@@ -577,7 +548,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
             bindSurfaceHolder(mMediaPlayer, mSurfaceHolder);
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setScreenOnWhilePlaying(true);
-            mPrepareStartTime = System.currentTimeMillis();
             mMediaPlayer.prepareAsync();
 
             // we don't set the target state here either, but preserve the
@@ -830,7 +800,9 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
             setPlayerDataSource();
+            mCurrentState = STATE_PREPARING;
             mMediaPlayer.prepareAsync();
+            notifyStateChange();
         } else {
             openVideo();
         }
@@ -924,7 +896,6 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
             mLoadingView.setVisibility(VISIBLE);
         }
         if (isInPlaybackState()) {
-            mSeekStartTime = System.currentTimeMillis();
             mMediaPlayer.seekTo(pos);
             mSeekWhenPrepared = 0;
         } else {
@@ -994,14 +965,17 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     }
 
     @Override
-    public void switchPlayer(@MediaPlayerView.PlayerType int mediaPlayerType) {
+    public void switchPlayer(@PlayerType int mediaPlayerType) {
         if (mMediaPlayerType == mediaPlayerType) {
             return;
         }
+        int currentPosition = getCurrentPosition();
         release(true);
         setRenderView(createRenderView(mRenderViewType));
         openVideo();
         start();
+        //定位到当前播放位置
+        seekTo(currentPosition);
     }
 
     /**
