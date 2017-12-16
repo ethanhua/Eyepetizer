@@ -106,4 +106,7 @@ public interface VideoRepository {
      * @return
      */
     Single<ListData<ItemData<VideoData>>> listRank(String rankStrategy, Map pageQueryMap);
+
+
+    Single<ListData<ItemData<VideoData>>> listWatchHistory(String userId);
 }

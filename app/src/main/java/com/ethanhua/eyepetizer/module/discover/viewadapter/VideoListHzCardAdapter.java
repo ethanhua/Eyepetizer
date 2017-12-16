@@ -1,15 +1,14 @@
-package com.ethanhua.eyepetizer.module.subscribe.viewadapter;
+package com.ethanhua.eyepetizer.module.discover.viewadapter;
 
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.ethanhua.commonlib.adapter.BindRcvViewHolder;
-import com.ethanhua.eyepetizer.viewmodel.ObservableItems;
 import com.ethanhua.eyepetizer.R;
 import com.ethanhua.eyepetizer.databinding.ItemVideoMiddleBinding;
-import com.ethanhua.eyepetizer.module.discover.viewadapter.BaseEndlessAdapter;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
+import com.ethanhua.eyepetizer.viewmodel.ObservableItems;
 
 /**
  * Created by ethanhua on 2017/9/19.

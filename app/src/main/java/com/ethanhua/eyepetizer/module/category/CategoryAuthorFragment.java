@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 
 import com.ethanhua.eyepetizer.BaseFragment;
 import com.ethanhua.eyepetizer.R;
-import com.ethanhua.eyepetizer.module.category.viewmodel.CategoryAuthorVM;
 import com.ethanhua.eyepetizer.databinding.FragmentCategoryAuthorBinding;
 import com.ethanhua.eyepetizer.di.components.DaggerFragmentComponent;
-import com.ethanhua.eyepetizer.module.subscribe.viewadapter.VideoListBriefVB;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListBriefVM;
+import com.ethanhua.eyepetizer.module.category.viewmodel.CategoryAuthorVM;
+import com.ethanhua.eyepetizer.module.discover.viewadapter.VideoListBriefVB;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListBriefVM;
 
 import javax.inject.Inject;
 

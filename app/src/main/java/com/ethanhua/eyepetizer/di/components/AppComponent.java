@@ -1,6 +1,7 @@
 package com.ethanhua.eyepetizer.di.components;
 
 import android.app.Application;
+import android.content.Context;
 import android.databinding.DataBindingComponent;
 
 import com.danikula.videocache.HttpProxyCacheServer;
@@ -24,6 +25,8 @@ import dagger.Component;
 public interface AppComponent {
 
     Application getApplication();
+
+    Context getContext();
 
     VideoRepository getVideoRepository();
 

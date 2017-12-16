@@ -1,4 +1,4 @@
-package com.ethanhua.eyepetizer.module.subscribe;
+package com.ethanhua.eyepetizer.module.discover;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,12 +11,12 @@ import com.ethanhua.eyepetizer.BaseFragment;
 import com.ethanhua.eyepetizer.R;
 import com.ethanhua.eyepetizer.databinding.FragmentFollowBinding;
 import com.ethanhua.eyepetizer.di.components.DaggerFragmentComponent;
+import com.ethanhua.eyepetizer.module.discover.viewadapter.VideoListBriefVB;
+import com.ethanhua.eyepetizer.module.discover.viewadapter.VideoListHzCardVB;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.SubscriptionVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListBriefVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListHzScrollCardVM;
 import com.ethanhua.eyepetizer.module.home.viewadapter.VideoItemVB;
-import com.ethanhua.eyepetizer.module.subscribe.viewadapter.VideoListBriefVB;
-import com.ethanhua.eyepetizer.module.subscribe.viewadapter.VideoListHzCardVB;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.SubscriptionVM;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListBriefVM;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListHzScrollCardVM;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
 
 import javax.inject.Inject;

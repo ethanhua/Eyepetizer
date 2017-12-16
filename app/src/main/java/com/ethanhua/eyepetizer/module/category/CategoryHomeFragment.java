@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 
 import com.ethanhua.eyepetizer.BaseFragment;
 import com.ethanhua.eyepetizer.R;
-import com.ethanhua.eyepetizer.module.category.viewmodel.CategoryHomeVM;
 import com.ethanhua.eyepetizer.databinding.FragmentCategoryHomeBinding;
 import com.ethanhua.eyepetizer.di.components.DaggerFragmentComponent;
+import com.ethanhua.eyepetizer.module.category.viewmodel.CategoryHomeVM;
 import com.ethanhua.eyepetizer.module.discover.viewadapter.TextItemVB;
+import com.ethanhua.eyepetizer.module.discover.viewadapter.VideoListHzCardVB;
 import com.ethanhua.eyepetizer.module.discover.viewmodel.TextVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListHzScrollCardVM;
 import com.ethanhua.eyepetizer.module.home.viewadapter.SquareListVB;
 import com.ethanhua.eyepetizer.module.home.viewadapter.VideoItemVB;
 import com.ethanhua.eyepetizer.module.home.viewmodel.SquareListVM;
-import com.ethanhua.eyepetizer.module.subscribe.viewadapter.VideoListHzCardVB;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListHzScrollCardVM;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
 
 import javax.inject.Inject;

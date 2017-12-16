@@ -12,14 +12,14 @@ apply plugin: 'me.tatarka.retrolambda'
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
-    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
-        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
-        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
-        versionCode globalConfiguration.getAt("androidVersionCode")
-        versionName globalConfiguration.getAt("androidVersionName")
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
     }
 
     compileOptions {
@@ -40,6 +40,9 @@ dependencies {
     compile dataDependencies.okHttp
     compile dataDependencies.okHttpLog
     compile dataDependencies.dagger
+    compile dataDependencies.roomRuntime
+    annotationProcessor dataDependencies.roomProcessor
+    compile dataDependencies.roomRxJava
 
     testCompile testDependencies.junit
 }

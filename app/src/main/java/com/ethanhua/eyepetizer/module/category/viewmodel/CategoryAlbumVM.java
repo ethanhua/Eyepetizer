@@ -6,7 +6,7 @@ import com.ethanhua.domain.model.ListData;
 import com.ethanhua.domain.model.VideoListData;
 import com.ethanhua.eyepetizer.viewmodel.AbsListViewModel;
 import com.ethanhua.commonlib.viewmodel.ViewModel;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListBriefVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListBriefVM;
 
 import java.util.Map;
 

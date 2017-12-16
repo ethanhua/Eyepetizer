@@ -1,4 +1,4 @@
-package com.ethanhua.eyepetizer.module.subscribe.viewadapter;
+package com.ethanhua.eyepetizer.module.discover.viewadapter;
 
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.ethanhua.commonlib.adapter.BindRcvViewHolder;
 import com.ethanhua.eyepetizer.R;
 import com.ethanhua.eyepetizer.databinding.ItemVideoListHzScrollCardBinding;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListHzScrollCardVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListHzScrollCardVM;
 
 import me.drakeet.multitype.ItemViewBinder;
 

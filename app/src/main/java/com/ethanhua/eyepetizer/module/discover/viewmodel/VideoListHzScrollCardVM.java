@@ -1,4 +1,4 @@
-package com.ethanhua.eyepetizer.module.subscribe.viewmodel;
+package com.ethanhua.eyepetizer.module.discover.viewmodel;
 
 import android.databinding.ObservableField;
 
@@ -7,7 +7,7 @@ import com.ethanhua.domain.model.VideoData;
 import com.ethanhua.domain.model.VideoListData;
 import com.ethanhua.eyepetizer.viewmodel.ObservableItems;
 import com.ethanhua.commonlib.viewmodel.ViewModel;
-import com.ethanhua.eyepetizer.module.subscribe.viewadapter.VideoListHzCardAdapter;
+import com.ethanhua.eyepetizer.module.discover.viewadapter.VideoListHzCardAdapter;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
 
 /**

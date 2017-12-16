@@ -80,4 +80,9 @@ public class VideoDataRepository implements VideoRepository {
     public Single<ListData<ItemData<VideoData>>> listRank(String rankStrategy, Map pageQueryMap) {
         return mVideoDataStoreFactory.createCloudDataStore().listRank(rankStrategy, pageQueryMap);
     }
+
+    @Override
+    public Single<ListData<ItemData<VideoData>>> listWatchHistory(String userId) {
+        return null;
+    }
 }

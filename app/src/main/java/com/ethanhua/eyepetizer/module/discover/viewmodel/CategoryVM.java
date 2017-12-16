@@ -6,7 +6,6 @@ import com.ethanhua.domain.model.ItemData;
 import com.ethanhua.domain.model.ListData;
 import com.ethanhua.domain.model.VideoListData;
 import com.ethanhua.eyepetizer.viewmodel.AbsListViewModel;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListHzScrollCardVM;
 
 import java.util.Map;
 

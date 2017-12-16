@@ -11,9 +11,9 @@ import com.ethanhua.eyepetizer.BaseFragment;
 import com.ethanhua.eyepetizer.R;
 import com.ethanhua.eyepetizer.databinding.FragmentCategoryBinding;
 import com.ethanhua.eyepetizer.di.components.DaggerFragmentComponent;
+import com.ethanhua.eyepetizer.module.discover.viewadapter.VideoListHzCardVB;
 import com.ethanhua.eyepetizer.module.discover.viewmodel.CategoryVM;
-import com.ethanhua.eyepetizer.module.subscribe.viewadapter.VideoListHzCardVB;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListHzScrollCardVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListHzScrollCardVM;
 
 import javax.inject.Inject;
 

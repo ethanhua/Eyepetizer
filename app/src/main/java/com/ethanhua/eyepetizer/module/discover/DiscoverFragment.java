@@ -36,10 +36,11 @@ public class DiscoverFragment extends BaseFragment {
                 container,
                 false,
                 bindComponent);
-        List<Fragment> mFragments = new ArrayList<>(2);
-        String[] mTitles = new String[]{"热门", "分类"};
+        List<Fragment> mFragments = new ArrayList<>(3);
+        String[] mTitles = new String[]{"热门", "分类", "关注"};
         mFragments.add(HotFragment.newInstance());
         mFragments.add(CategoryFragment.newInstance());
+        mFragments.add(SubscriptionFragment.newInstance());
         FragmentAdapter mFragmentAdapter = new FragmentAdapter(
                 getChildFragmentManager(),
                 mFragments,

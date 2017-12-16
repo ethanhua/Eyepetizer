@@ -1,6 +1,9 @@
 package com.ethanhua.data.datasource;
 
+import android.content.Context;
+
 import com.ethanhua.data.api.EyepetizerService;
+import com.ethanhua.data.datasource.local.LocalVideoDataStore;
 import com.ethanhua.data.datasource.remote.CloudVideoDataStore;
 
 import javax.inject.Inject;
@@ -12,13 +15,19 @@ import javax.inject.Inject;
 public class VideoDataStoreFactory {
 
     private final EyepetizerService eyepetizerService;
+    private final Context context;
 
     @Inject
-    public VideoDataStoreFactory(EyepetizerService eyepetizerService) {
+    public VideoDataStoreFactory(EyepetizerService eyepetizerService, Context context) {
         this.eyepetizerService = eyepetizerService;
+        this.context = context;
     }
 
     public CloudVideoDataStore createCloudDataStore() {
         return new CloudVideoDataStore(eyepetizerService);
+    }
+
+    public LocalVideoDataStore createLocalDataStore(String userId) {
+        return new LocalVideoDataStore(context);
     }
 }

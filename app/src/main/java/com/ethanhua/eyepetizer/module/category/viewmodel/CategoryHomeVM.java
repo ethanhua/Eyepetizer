@@ -11,7 +11,7 @@ import com.ethanhua.commonlib.viewmodel.ViewModel;
 import com.ethanhua.eyepetizer.module.discover.viewmodel.AuthorItemVM;
 import com.ethanhua.eyepetizer.module.discover.viewmodel.TextVM;
 import com.ethanhua.eyepetizer.module.home.viewmodel.SquareListVM;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListHzScrollCardVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListHzScrollCardVM;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
 
 import java.util.Map;

@@ -12,7 +12,7 @@ import com.ethanhua.domain.model.VideoListData;
 import com.ethanhua.eyepetizer.module.home.viewmodel.SquareListVM;
 import com.ethanhua.eyepetizer.module.home.viewmodel.VideoListVM;
 import com.ethanhua.eyepetizer.module.search.viewadapter.SearchTagAdapter;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListBriefVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListBriefVM;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
 import com.ethanhua.eyepetizer.viewmodel.AbsListViewModel;
 

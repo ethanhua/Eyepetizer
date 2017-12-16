@@ -1,4 +1,4 @@
-package com.ethanhua.eyepetizer.module.subscribe.viewadapter;
+package com.ethanhua.eyepetizer.module.discover.viewadapter;
 
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
@@ -10,7 +10,7 @@ import com.ethanhua.commonlib.adapter.BindRcvViewHolder;
 import com.ethanhua.eyepetizer.R;
 import com.ethanhua.eyepetizer.databinding.ItemVideoListBriefBinding;
 import com.ethanhua.eyepetizer.module.home.viewadapter.VideoHorizontalItemVB;
-import com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListBriefVM;
+import com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListBriefVM;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
 
 import me.drakeet.multitype.ItemViewBinder;

@@ -5,9 +5,12 @@ import com.ethanhua.domain.model.ItemData;
 import com.ethanhua.domain.model.ListData;
 import com.ethanhua.domain.model.VideoData;
 import com.ethanhua.domain.model.VideoListData;
+import com.ethanhua.domain.model.WatchRecord;
 
+import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 /**
@@ -37,4 +40,6 @@ public interface VideoDataStore {
     Single<ListData<ItemData<VideoListData>>> listBySearch(String queryStr, Map pageQueryMap);
 
     Single<ListData<ItemData<VideoData>>> listRank(String rankStrategy, Map pageQueryMap);
+
+    Flowable<List<WatchRecord>> listWatchHistory(String userId);
 }

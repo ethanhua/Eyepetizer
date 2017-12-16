@@ -7,7 +7,7 @@
 
         <variable
             name="videoBriefVM"
-            type="com.ethanhua.eyepetizer.module.subscribe.viewmodel.VideoListBriefVM" />
+            type="com.ethanhua.eyepetizer.module.discover.viewmodel.VideoListBriefVM" />
     </data>
 
     <android.support.v7.widget.CardView

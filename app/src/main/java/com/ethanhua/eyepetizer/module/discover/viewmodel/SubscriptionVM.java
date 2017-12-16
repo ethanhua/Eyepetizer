@@ -1,4 +1,4 @@
-package com.ethanhua.eyepetizer.module.subscribe.viewmodel;
+package com.ethanhua.eyepetizer.module.discover.viewmodel;
 
 import com.ethanhua.commonlib.viewmodel.ViewModel;
 import com.ethanhua.domain.interactor.GetSubscriptionDataCase;

@@ -1,6 +1,7 @@
 package com.ethanhua.eyepetizer.di.modules;
 
 import android.app.Application;
+import android.content.Context;
 import android.databinding.DataBindingComponent;
 import android.os.Build;
 
@@ -46,6 +47,12 @@ public class AppModule {
     @Provides
     @Singleton
     Application provideApplication() {
+        return this.application;
+    }
+
+    @Provides
+    @Singleton
+    Context provideContext() {
         return this.application;
     }
 
@@ -105,7 +112,7 @@ public class AppModule {
                     .addQueryParameter("vc", "220")
                     .addQueryParameter("vn", "3.10.0")
                     .addQueryParameter("deviceModel", Build.MODEL)
-                    .addQueryParameter("system_version_code",String.valueOf(Build.VERSION.SDK_INT))
+                    .addQueryParameter("system_version_code", String.valueOf(Build.VERSION.SDK_INT))
                     .build();
             return chain.proceed(chain.request().newBuilder().url(url).build());
         }).addInterceptor(interceptor)

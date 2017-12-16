@@ -13,7 +13,7 @@ import com.ethanhua.eyepetizer.module.discover.CategoryFragment;
 import com.ethanhua.eyepetizer.module.discover.HotFragment;
 import com.ethanhua.eyepetizer.module.home.HomeFragment;
 import com.ethanhua.eyepetizer.module.ranklist.RankListFragment;
-import com.ethanhua.eyepetizer.module.subscribe.SubscriptionFragment;
+import com.ethanhua.eyepetizer.module.discover.SubscriptionFragment;
 import com.ethanhua.eyepetizer.module.video.VideoCommentsFragment;
 
 import dagger.Component;

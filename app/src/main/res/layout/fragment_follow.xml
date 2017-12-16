@@ -9,51 +9,24 @@
 
         <variable
             name="subVM"
-            type="com.ethanhua.eyepetizer.module.subscribe.viewmodel.SubscriptionVM" />
+            type="com.ethanhua.eyepetizer.module.discover.viewmodel.SubscriptionVM" />
     </data>
 
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:refreshing="@{subVM.isLoading}"
+        bind:onRefresh="@{subVM}">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:background="@color/colorPrimaryDark" />
-
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:title="关注"
-            app:titleTextColor="@color/colorWhite">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="@{v->NavigationViewModel.startSearch(v)}"
-                android:src="@drawable/ic_search_white_24dp" />
-        </android.support.v7.widget.Toolbar>
-
-        <android.support.v4.widget.SwipeRefreshLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            android:orientation="vertical"
-            android:refreshing="@{subVM.isLoading}"
-            bind:onRefresh="@{subVM}">
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            bind:adapter="@{subVM.getAdapter()}"
+            bind:onLoadMore="@{subVM}" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                bind:adapter="@{subVM.getAdapter()}"
-                bind:onLoadMore="@{subVM}" />
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
 </layout>

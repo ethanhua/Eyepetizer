@@ -15,4 +15,5 @@
     <string name="hot_search_tag">- 热门搜索词 -</string>
     <string name="ranking_list">排行榜</string>
     <string name="category">分类</string>
+    <string name="watch_history">观看历史</string>
 </resources>
