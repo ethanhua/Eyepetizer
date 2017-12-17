@@ -34,6 +34,8 @@ ext {
     flexboxVerision = '0.3.1'
     leakCanaryVersion = '1.5.4'
     roomVersion = '1.0.0'
+    lifecycleVersion = '1.0.3'
+    lifecycleCompileVersion = '1.0.0'
     //Testing
     robolectricVersion = '3.1.1'
     jUnitVersion = '4.12'
@@ -57,6 +59,7 @@ ext {
             ijkplayerx86    : "tv.danmaku.ijk.media:ijkplayer-x86:${ijkplayerVersion}",
             ijkplayerx86_64 : "tv.danmaku.ijk.media:ijkplayer-x86_64:${ijkplayerVersion}",
             multitype       : "me.drakeet.multitype:multitype:${multitypeVersion}",
+            lifecyler       : "android.arch.lifecycle:common:${lifecycleVersion}"
     ]
 
     presentationDependencies = [
@@ -75,6 +78,11 @@ ext {
             flexbox           : "com.google.android:flexbox:${flexboxVerision}",
             leakCanary_debug  : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
             leakCanary_release: "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
+            lifecycleRuntime  : "android.arch.lifecycle:runtime:${lifecycleVersion}",
+            lifecycleProcessor: "android.arch.lifecycle:compiler:${lifecycleCompileVersion}",
+            roomRuntime       : "android.arch.persistence.room:runtime:${roomVersion}",
+            roomRxJava        : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            roomProcessor     : "android.arch.persistence.room:compiler:${roomVersion}",
 //            javaxAnnotation : "javax.annotation:jsr250-api:${javaxAnnotationVersion}"
     ]
 
@@ -114,8 +122,8 @@ dagger: "com.google.dagger:dagger:${daggerVersion}",
             javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
             roomRuntime          : "android.arch.persistence.room:runtime:${roomVersion}",
-            roomProcessor        : "android.arch.persistence.room:compiler:${roomVersion}",
             roomRxJava           : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            roomProcessor        : "android.arch.persistence.room:compiler:${roomVersion}",
             androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}"
     ]
 

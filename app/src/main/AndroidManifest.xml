@@ -117,6 +117,7 @@
                     android:scheme="eyepetizer" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.video.WatchRecordActivity" />
     </application>
 
 </manifest>

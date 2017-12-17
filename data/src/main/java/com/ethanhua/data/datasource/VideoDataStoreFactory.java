@@ -27,7 +27,7 @@ public class VideoDataStoreFactory {
         return new CloudVideoDataStore(eyepetizerService);
     }
 
-    public LocalVideoDataStore createLocalDataStore(String userId) {
+    public LocalVideoDataStore createLocalDataStore() {
         return new LocalVideoDataStore(context);
     }
 }

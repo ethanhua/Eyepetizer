@@ -8,6 +8,7 @@ import com.ethanhua.eyepetizer.module.category.CategoryActivity;
 import com.ethanhua.eyepetizer.module.category.CategoryListActivity;
 import com.ethanhua.eyepetizer.module.search.SearchActivity;
 import com.ethanhua.eyepetizer.module.video.VideoDetailsActivity;
+import com.ethanhua.eyepetizer.module.video.WatchRecordActivity;
 
 import dagger.Component;
 
@@ -27,4 +28,5 @@ public interface ActivityComponent {
 
     void inject(SearchActivity searchActivity);
 
+    void inject(WatchRecordActivity watchRecordActivity);
 }

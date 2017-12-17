@@ -25,10 +25,10 @@ public interface WatchHistoryRecordDao {
     /**
      * Insert a user in the database. If the user already exists, replace it.
      *
-     * @param video the video to be inserted
+     * @param record the record to be inserted
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(WatchHistoryRecord video);
+    void insert(WatchHistoryRecord record);
 
     /**
      *

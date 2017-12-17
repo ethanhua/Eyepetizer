@@ -6,12 +6,16 @@ import com.ethanhua.domain.model.ItemData;
 import com.ethanhua.domain.model.ListData;
 import com.ethanhua.domain.model.VideoData;
 import com.ethanhua.domain.model.VideoListData;
+import com.ethanhua.domain.model.WatchRecord;
 import com.ethanhua.domain.respository.VideoRepository;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 /**
@@ -82,7 +86,12 @@ public class VideoDataRepository implements VideoRepository {
     }
 
     @Override
-    public Single<ListData<ItemData<VideoData>>> listWatchHistory(String userId) {
-        return null;
+    public Flowable<List<WatchRecord>> listWatchHistory(String userId) {
+        return mVideoDataStoreFactory.createLocalDataStore().listWatchRecord(userId);
+    }
+
+    @Override
+    public Completable insert(WatchRecord watchRecord) {
+        return mVideoDataStoreFactory.createLocalDataStore().insert(watchRecord);
     }
 }

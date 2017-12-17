@@ -41,8 +41,7 @@ dependencies {
     compile dataDependencies.okHttpLog
     compile dataDependencies.dagger
     compile dataDependencies.roomRuntime
-    annotationProcessor dataDependencies.roomProcessor
     compile dataDependencies.roomRxJava
-
+    annotationProcessor presentationDependencies.roomProcessor
     testCompile testDependencies.junit
 }

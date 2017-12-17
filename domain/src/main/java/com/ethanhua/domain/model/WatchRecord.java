@@ -9,7 +9,9 @@ public class WatchRecord {
 
     public long position;
 
-    public int videoId;
+    public long videoId;
+
+    public String userId;
 
     public String actionUrl;
 
@@ -48,4 +50,6 @@ public class WatchRecord {
     public String normalPlayUrl;
 
     public String lowPlayUrl;
+
+    public long updateTime;
 }

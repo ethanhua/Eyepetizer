@@ -3,9 +3,8 @@ package com.ethanhua.data.datasource.local;
 import android.content.Context;
 
 import com.ethanhua.data.datasource.VideoDataStore;
-import com.ethanhua.data.datasource.local.database.AppDataBase;
+import com.ethanhua.data.datasource.local.database.EyepetizerDatabase;
 import com.ethanhua.data.datasource.local.database.WatchHistoryRecord;
-import com.ethanhua.data.datasource.local.database.WatchRecordMapper;
 import com.ethanhua.domain.model.HomeData;
 import com.ethanhua.domain.model.ItemData;
 import com.ethanhua.domain.model.ListData;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -87,8 +87,8 @@ public class LocalVideoDataStore implements VideoDataStore {
     }
 
     @Override
-    public Flowable<List<WatchRecord>> listWatchHistory(String userId) {
-        return AppDataBase.getInstance(mContext)
+    public Flowable<List<WatchRecord>> listWatchRecord(String userId) {
+        return EyepetizerDatabase.getInstance(mContext)
                 .watchHistoryRecordDao()
                 .list(userId)
                 .map(watchHistoryRecords -> {
@@ -98,6 +98,16 @@ public class LocalVideoDataStore implements VideoDataStore {
                     }
                     return watchRecords;
                 });
+    }
+
+    @Override
+    public Completable insert(WatchRecord watchRecord) {
+        return Completable.create(e -> {
+            EyepetizerDatabase.getInstance(mContext)
+                    .watchHistoryRecordDao()
+                    .insert(WatchRecordMapper.to(watchRecord));
+            e.onComplete();
+        });
     }
 
 }

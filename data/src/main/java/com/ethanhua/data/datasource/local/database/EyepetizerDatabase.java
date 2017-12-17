@@ -8,19 +8,19 @@ import android.content.Context;
 /**
  * Created by ethanhua on 2017/12/16.
  */
-@Database(entities = {WatchHistoryRecord.class}, version = 1,exportSchema = false)
-public abstract class AppDataBase extends RoomDatabase {
+@Database(entities = {WatchHistoryRecord.class}, version = 1, exportSchema = false)
+public abstract class EyepetizerDatabase extends RoomDatabase {
 
-    private static volatile AppDataBase INSTANCE;
+    private static volatile EyepetizerDatabase INSTANCE;
 
     public abstract WatchHistoryRecordDao watchHistoryRecordDao();
 
-    public static AppDataBase getInstance(Context context) {
+    public static EyepetizerDatabase getInstance(Context context) {
         if (INSTANCE == null) {
-            synchronized (AppDataBase.class) {
+            synchronized (EyepetizerDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDataBase.class, "Eyepetizer.db")
+                            EyepetizerDatabase.class, "Eyepetizer.db")
                             .build();
                 }
             }

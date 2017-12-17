@@ -16,4 +16,5 @@
     <string name="ranking_list">排行榜</string>
     <string name="category">分类</string>
     <string name="watch_history">观看历史</string>
+    <string name="watch_record">观看记录</string>
 </resources>

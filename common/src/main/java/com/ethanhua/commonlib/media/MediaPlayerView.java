@@ -866,7 +866,12 @@ public class MediaPlayerView extends FrameLayout implements IMediaPlayerView, Li
     public void destroy() {
         Log.d(TAG, "destroy");
         release(true);
-        IjkMediaPlayer.native_profileEnd();
+        try {
+            IjkMediaPlayer.native_profileEnd();
+        } catch (Error error) {
+            error.printStackTrace();
+        }
+
     }
 
     @Override

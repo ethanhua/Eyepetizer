@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ethanhua.commonlib.media.VideoUrlSource;
 import com.ethanhua.commonlib.viewmodel.ViewModel;
@@ -13,6 +14,7 @@ import com.ethanhua.domain.model.ItemData;
 import com.ethanhua.domain.model.PlayInfo;
 import com.ethanhua.domain.model.VideoData;
 import com.ethanhua.domain.model.VideoListData;
+import com.ethanhua.domain.model.WatchRecord;
 
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
     public final ObservableField<String> authorIntro = new ObservableField<>();
     public final ObservableField<String> authorAvatar = new ObservableField<>();
     public final ObservableField<VideoUrlSource> videoUrlSource = new ObservableField<>();
+    public final ObservableInt seekPosition = new ObservableInt(0);
 
     public VideoBaseVM() {
 
@@ -99,6 +102,64 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
 
     public static VideoBaseVM mapFromVideo(ItemData<VideoData> itemDataContent) {
         return mapFrom(new VideoBaseVM(), itemDataContent);
+    }
+
+    public static VideoBaseVM mapFromWatchRecord(WatchRecord watchRecord) {
+        VideoBaseVM videoBaseVM = new VideoBaseVM();
+        if (watchRecord != null) {
+            videoBaseVM.id = watchRecord.videoId;
+            videoBaseVM.actionUrl = watchRecord.actionUrl;
+            videoBaseVM.uri.set(Uri.parse(watchRecord.playUrl));
+            videoBaseVM.coverUrl.set(watchRecord.coverUrl);
+            videoBaseVM.blurredUrl.set(watchRecord.blurredUrl);
+            videoBaseVM.title.set(watchRecord.title);
+            videoBaseVM.slogan.set(watchRecord.slogan);
+            videoBaseVM.subTitle.set(watchRecord.subTitle);
+            videoBaseVM.description.set(watchRecord.description);
+            videoBaseVM.collectionCount.set(watchRecord.collectionCount);
+            videoBaseVM.shareCount.set(watchRecord.shareCount);
+            videoBaseVM.replyCount.set(watchRecord.replyCount);
+            videoBaseVM.authorName.set(watchRecord.authorName);
+            videoBaseVM.authorAvatar.set(watchRecord.authorAvatar);
+            videoBaseVM.authorIntro.set(watchRecord.authorIntro);
+            VideoUrlSource videoUrlSource = new VideoUrlSource();
+            videoUrlSource.bdUrl = watchRecord.bdPlayUrl;
+            videoUrlSource.supperUrl = watchRecord.supperPlayUrl;
+            videoUrlSource.highUrl = watchRecord.highPlayUrl;
+            videoUrlSource.normalUrl = watchRecord.normalPlayUrl;
+            videoUrlSource.lowUrl = watchRecord.lowPlayUrl;
+            videoBaseVM.videoUrlSource.set(videoUrlSource);
+        }
+        return videoBaseVM;
+    }
+
+    public WatchRecord mapToWatchRecord() {
+        WatchRecord watchRecord = new WatchRecord();
+        watchRecord.videoId = id;
+        watchRecord.actionUrl = actionUrl;
+        watchRecord.playUrl = uri.get().toString();
+        watchRecord.coverUrl = coverUrl.get();
+        watchRecord.blurredUrl = blurredUrl.get();
+        watchRecord.title = title.get();
+        watchRecord.slogan = slogan.get();
+        watchRecord.subTitle = subTitle.get();
+        watchRecord.description = description.get();
+        watchRecord.collectionCount = collectionCount.get();
+        watchRecord.shareCount = shareCount.get();
+        watchRecord.replyCount = replyCount.get();
+        watchRecord.authorName = authorName.get();
+        watchRecord.authorIntro = authorIntro.get();
+        watchRecord.authorAvatar = authorAvatar.get();
+        Log.e("event", "vm map:" + watchRecord.coverUrl + "-" + imageUrl.get());
+        if (videoUrlSource.get() != null) {
+            watchRecord.bdPlayUrl = videoUrlSource.get().bdUrl;
+            watchRecord.supperPlayUrl = videoUrlSource.get().supperUrl;
+            watchRecord.highPlayUrl = videoUrlSource.get().highUrl;
+            watchRecord.normalPlayUrl = videoUrlSource.get().normalUrl;
+            watchRecord.lowPlayUrl = videoUrlSource.get().lowUrl;
+        }
+        watchRecord.updateTime = System.currentTimeMillis();
+        return watchRecord;
     }
 
     private static VideoBaseVM mapFrom(VideoBaseVM videoBaseVM, VideoListData videoListData) {

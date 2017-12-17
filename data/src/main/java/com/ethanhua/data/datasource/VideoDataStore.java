@@ -10,6 +10,7 @@ import com.ethanhua.domain.model.WatchRecord;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -41,5 +42,7 @@ public interface VideoDataStore {
 
     Single<ListData<ItemData<VideoData>>> listRank(String rankStrategy, Map pageQueryMap);
 
-    Flowable<List<WatchRecord>> listWatchHistory(String userId);
+    Flowable<List<WatchRecord>> listWatchRecord(String userId);
+
+    Completable insert(WatchRecord watchRecord);
 }

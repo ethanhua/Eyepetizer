@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
+
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
@@ -65,8 +66,11 @@ dependencies {
     compile presentationDependencies.circleImageView
     compile presentationDependencies.videocache
     compile presentationDependencies.flexbox
+    compile presentationDependencies.roomRuntime
+    compile presentationDependencies.roomRxJava
+    annotationProcessor presentationDependencies.roomProcessor
+    annotationProcessor presentationDependencies.daggerCompiler
     debugCompile presentationDependencies.leakCanary_debug
     releaseCompile presentationDependencies.leakCanary_release
-    annotationProcessor presentationDependencies.daggerCompiler
     testCompile domainTestDependencies.junit
 }

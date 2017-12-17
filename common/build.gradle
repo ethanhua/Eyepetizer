@@ -32,4 +32,6 @@ dependencies {
     compile commonLibDependencies.ijkplayerexo
     compile commonLibDependencies.constraintLayout
     compile commonLibDependencies.multitype
+    compile commonLibDependencies.lifecyler
+
 }

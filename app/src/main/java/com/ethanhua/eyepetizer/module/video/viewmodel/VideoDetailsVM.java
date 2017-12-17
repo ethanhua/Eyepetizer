@@ -1,11 +1,13 @@
 package com.ethanhua.eyepetizer.module.video.viewmodel;
 
+import com.ethanhua.commonlib.viewmodel.ViewModel;
 import com.ethanhua.domain.interactor.GetRelatedVideosCase;
+import com.ethanhua.domain.interactor.InsertVideoWatchRecordCase;
 import com.ethanhua.domain.model.ItemData;
 import com.ethanhua.domain.model.ListData;
 import com.ethanhua.domain.model.VideoData;
+import com.ethanhua.domain.model.WatchRecord;
 import com.ethanhua.eyepetizer.viewmodel.AbsListViewModel;
-import com.ethanhua.commonlib.viewmodel.ViewModel;
 
 import java.util.Map;
 
@@ -22,10 +24,13 @@ public class VideoDetailsVM extends
 
     public VideoBaseVM baseVM;
     private final GetRelatedVideosCase mGetRelatedVideosCase;
+    private final InsertVideoWatchRecordCase mInsertVideoWatchRecordCase;
 
     @Inject
-    public VideoDetailsVM(GetRelatedVideosCase mGetRelatedVideosCase) {
-        this.mGetRelatedVideosCase = mGetRelatedVideosCase;
+    public VideoDetailsVM(GetRelatedVideosCase getRelatedVideosCase,
+                          InsertVideoWatchRecordCase insertVideoWatchRecordCase) {
+        this.mGetRelatedVideosCase = getRelatedVideosCase;
+        this.mInsertVideoWatchRecordCase = insertVideoWatchRecordCase;
     }
 
     @Override
@@ -41,4 +46,12 @@ public class VideoDetailsVM extends
         }
         return null;
     }
+
+    public void record(long position) {
+        WatchRecord watchRecord = baseVM.mapToWatchRecord();
+        watchRecord.position = position;
+        watchRecord.userId = "hhy";
+        mInsertVideoWatchRecordCase.execute(watchRecord).subscribe();
+    }
+
 }

@@ -2,18 +2,18 @@ package com.ethanhua.data.datasource.local.database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 /**
  * Created by ethanhua on 2017/12/16.
  */
-@Entity(tableName = "watch_history_record")
+@Entity(tableName = "watch_history_record",
+        primaryKeys = {"video_id", "user_id"})
 public class WatchHistoryRecord {
-    @PrimaryKey
-    public long id;
-
-    //    @ColumnInfo(name = "video_id")
-//    public int videoId;
+    @NonNull
+    @ColumnInfo(name = "video_id")
+    public long videoId;
+    @NonNull
     @ColumnInfo(name = "user_id")
     public String userId;
 
@@ -76,4 +76,7 @@ public class WatchHistoryRecord {
 
     @ColumnInfo(name = "low_play_url")
     public String lowPlayUrl;
+
+    @ColumnInfo(name = "update_time")
+    public long updateTime;
 }

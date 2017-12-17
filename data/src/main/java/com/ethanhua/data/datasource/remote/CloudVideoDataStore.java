@@ -12,6 +12,7 @@ import com.ethanhua.domain.model.WatchRecord;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -74,7 +75,7 @@ public class CloudVideoDataStore implements VideoDataStore {
 
     @Override
     public Single<ListData<ItemData<VideoListData>>> listBySearch(String queryStr, Map pageQueryMap) {
-        return mEyepetizerService.listVideoBySearch(queryStr,pageQueryMap);
+        return mEyepetizerService.listVideoBySearch(queryStr, pageQueryMap);
     }
 
     @Override
@@ -83,7 +84,12 @@ public class CloudVideoDataStore implements VideoDataStore {
     }
 
     @Override
-    public Flowable<List<WatchRecord>> listWatchHistory(String userId) {
+    public Flowable<List<WatchRecord>> listWatchRecord(String userId) {
+        return null;
+    }
+
+    @Override
+    public Completable insert(WatchRecord watchRecord) {
         return null;
     }
 }
