@@ -20,7 +20,8 @@ public class WatchRecordMapper {
         item.blurredUrl = record.blurredUrl;
         item.title = record.title;
         item.slogan = record.slogan;
-        item.subTitle = record.subTitle;
+        item.category = record.category;
+        item.duration = record.duration;
         item.description = record.description;
         item.collectionCount = record.collectionCount;
         item.shareCount = record.shareCount;
@@ -48,7 +49,8 @@ public class WatchRecordMapper {
         item.blurredUrl = record.blurredUrl;
         item.title = record.title;
         item.slogan = record.slogan;
-        item.subTitle = record.subTitle;
+        item.category = record.category;
+        item.duration = record.duration;
         item.description = record.description;
         item.collectionCount = record.collectionCount;
         item.shareCount = record.shareCount;

@@ -111,8 +111,19 @@ public interface VideoRepository {
      */
     Single<ListData<ItemData<VideoData>>> listRank(String rankStrategy, Map pageQueryMap);
 
-
+    /**
+     * 获取该用户的视频观看历史记录
+     *
+     * @param userId
+     * @return
+     */
     Flowable<List<WatchRecord>> listWatchHistory(String userId);
 
+    /**
+     * 插入一条用户的视频观看记录
+     *
+     * @param watchRecord
+     * @return
+     */
     Completable insert(WatchRecord watchRecord);
 }

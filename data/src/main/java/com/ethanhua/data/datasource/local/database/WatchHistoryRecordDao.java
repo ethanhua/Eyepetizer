@@ -19,7 +19,7 @@ public interface WatchHistoryRecordDao {
      * @param userId the user id
      * @return the WatchHistoryRecord select from the table
      */
-    @Query("SELECT * FROM watch_history_record where user_id == :userId")
+    @Query("SELECT * FROM watch_history_record where user_id == :userId ORDER BY update_time DESC")
     Flowable<List<WatchHistoryRecord>> list(String userId);
 
     /**

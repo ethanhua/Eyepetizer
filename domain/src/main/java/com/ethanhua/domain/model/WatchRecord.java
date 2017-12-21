@@ -25,7 +25,9 @@ public class WatchRecord {
 
     public String slogan;
 
-    public String subTitle;
+    public String category;
+
+    public int duration;
 
     public String description;
 

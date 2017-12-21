@@ -33,7 +33,11 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
     public final ObservableField<String> iconUrl = new ObservableField<>();
     public final ObservableField<String> title = new ObservableField<>();
     public final ObservableField<String> slogan = new ObservableField<>();
+
+    public final ObservableField<String> category = new ObservableField<>();
+    public final ObservableInt duration = new ObservableInt();
     public final ObservableField<String> subTitle = new ObservableField<>();
+
     public final ObservableField<String> description = new ObservableField<>();
     public final ObservableInt collectionCount = new ObservableInt();
     public final ObservableInt shareCount = new ObservableInt();
@@ -59,6 +63,8 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
         iconUrl.set(in.readString());
         title.set(in.readString());
         slogan.set(in.readString());
+        category.set(in.readString());
+        duration.set(in.readInt());
         subTitle.set(in.readString());
         description.set(in.readString());
         authorName.set(in.readString());
@@ -68,6 +74,7 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
         shareCount.set(in.readInt());
         replyCount.set(in.readInt());
         videoUrlSource.set(in.readParcelable(VideoUrlSource.class.getClassLoader()));
+        seekPosition.set(in.readInt());
     }
 
     public static final Creator<VideoBaseVM> CREATOR = new Creator<VideoBaseVM>() {
@@ -114,7 +121,15 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
             videoBaseVM.blurredUrl.set(watchRecord.blurredUrl);
             videoBaseVM.title.set(watchRecord.title);
             videoBaseVM.slogan.set(watchRecord.slogan);
-            videoBaseVM.subTitle.set(watchRecord.subTitle);
+            videoBaseVM.subTitle.set("#"
+                    + watchRecord.category
+                    + " / "
+                    + watchRecord.duration / 60
+                    + "' "
+                    + watchRecord.duration % 60
+                    + '"');
+            videoBaseVM.category.set(watchRecord.category);
+            videoBaseVM.duration.set(watchRecord.duration);
             videoBaseVM.description.set(watchRecord.description);
             videoBaseVM.collectionCount.set(watchRecord.collectionCount);
             videoBaseVM.shareCount.set(watchRecord.shareCount);
@@ -142,7 +157,8 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
         watchRecord.blurredUrl = blurredUrl.get();
         watchRecord.title = title.get();
         watchRecord.slogan = slogan.get();
-        watchRecord.subTitle = subTitle.get();
+        watchRecord.category = category.get();
+        watchRecord.duration = duration.get();
         watchRecord.description = description.get();
         watchRecord.collectionCount = collectionCount.get();
         watchRecord.shareCount = shareCount.get();
@@ -181,6 +197,8 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
                 + "' "
                 + videoListData.duration % 60
                 + '"');
+        videoBaseVM.category.set(videoListData.category);
+        videoBaseVM.duration.set(videoListData.duration);
         videoBaseVM.title.set(videoListData.title);
         if (!TextUtils.isEmpty(videoListData.playUrl)) {
             videoBaseVM.uri.set(Uri.parse(videoListData.playUrl));
@@ -223,6 +241,8 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
                 + "' "
                 + itemDataContent.data.duration % 60
                 + '"');
+        videoBaseVM.category.set(itemDataContent.data.category);
+        videoBaseVM.duration.set(itemDataContent.data.duration);
         videoBaseVM.title.set(itemDataContent.data.title);
         if (!TextUtils.isEmpty(itemDataContent.data.playUrl)) {
             videoBaseVM.uri.set(Uri.parse(itemDataContent.data.playUrl));
@@ -260,6 +280,8 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
         parcel.writeString(iconUrl.get());
         parcel.writeString(title.get());
         parcel.writeString(slogan.get());
+        parcel.writeString(category.get());
+        parcel.writeInt(duration.get());
         parcel.writeString(subTitle.get());
         parcel.writeString(description.get());
         parcel.writeString(authorName.get());
@@ -269,6 +291,7 @@ public class VideoBaseVM extends ViewModel implements Parcelable {
         parcel.writeInt(shareCount.get());
         parcel.writeInt(replyCount.get());
         parcel.writeParcelable(videoUrlSource.get(), i);
+        parcel.writeInt(seekPosition.get());
     }
 
 

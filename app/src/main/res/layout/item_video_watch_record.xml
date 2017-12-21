@@ -8,15 +8,15 @@
         <import type="com.ethanhua.eyepetizer.viewmodel.NavigationViewModel" />
 
         <variable
-            name="videoVM"
-            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM" />
+            name="vm"
+            type="com.ethanhua.eyepetizer.module.video.viewmodel.VideoWatchRecordVM" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="?attr/selectableItemBackground"
-        android:onClick="@{(view)->NavigationViewModel.startVideoDetailsOnAnim(view,videoVM)}">
+        android:onClick="@{(view)->NavigationViewModel.startVideoDetailsOnAnim(view,vm.videoBaseVM.get())}">
 
         <ImageView
             android:id="@+id/img_cover"
@@ -30,7 +30,7 @@
             app:layout_constraintDimensionRatio="5:3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            bind:imageUrl="@{videoVM.coverUrl}" />
+            bind:imageUrl="@{vm.videoBaseVM.get().coverUrl}" />
 
         <TextView
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="10dp"
-            android:text="@{videoVM.title}"
+            android:text="@{vm.videoBaseVM.get().title}"
             app:layout_constraintLeft_toRightOf="@+id/img_cover"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/img_cover" />
@@ -49,7 +49,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:text="@{videoVM.description}"
+            android:text="@{vm.subTitle}"
             app:layout_constraintBottom_toBottomOf="@+id/img_cover"
             app:layout_constraintLeft_toRightOf="@+id/img_cover"
             app:layout_constraintRight_toRightOf="parent" />

@@ -92,7 +92,6 @@ public class VideoUrlSource implements Parcelable {
     }
 
     public boolean isEmptyOrSingle() {
-        boolean isEmptyOrSingle = false;
         int count = 0;
         if (!TextUtils.isEmpty(bdUrl)) {
             count++;

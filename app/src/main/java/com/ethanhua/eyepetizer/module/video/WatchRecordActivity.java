@@ -11,8 +11,8 @@ import com.ethanhua.eyepetizer.R;
 import com.ethanhua.eyepetizer.databinding.ActivityWatchRecordBinding;
 import com.ethanhua.eyepetizer.di.components.DaggerActivityComponent;
 import com.ethanhua.eyepetizer.module.video.viewadapter.VideoWatchRecordVB;
-import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
 import com.ethanhua.eyepetizer.module.video.viewmodel.VideoWatchRecordVM;
+import com.ethanhua.eyepetizer.module.video.viewmodel.VideoWatchRecordsVM;
 
 import javax.inject.Inject;
 
@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 public class WatchRecordActivity extends BaseActivity {
     @Inject
-    public VideoWatchRecordVM videoWatchRecordVM;
+    public VideoWatchRecordsVM videoWatchRecordsVM;
 
     public static void actionStart(Context context) {
         if (context == null) {
@@ -42,14 +42,15 @@ public class WatchRecordActivity extends BaseActivity {
         ActivityWatchRecordBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_watch_record);
         binding.toolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_white_36dp);
         binding.toolbar.setNavigationOnClickListener(view -> finish());
-        videoWatchRecordVM.getAdapter().register(VideoBaseVM.class, new VideoWatchRecordVB());
-        binding.setVm(videoWatchRecordVM);
-        videoWatchRecordVM.refresh();
+        videoWatchRecordsVM.getAdapter().register(VideoWatchRecordVM.class, new VideoWatchRecordVB());
+        binding.setVm(videoWatchRecordsVM);
+        videoWatchRecordsVM.refresh();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        videoWatchRecordVM.clean();
+        videoWatchRecordsVM.clean();
     }
+
 }

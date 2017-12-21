@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.ethanhua.commonlib.adapter.BindRcvViewHolder;
 import com.ethanhua.eyepetizer.R;
 import com.ethanhua.eyepetizer.databinding.ItemVideoWatchRecordBinding;
-import com.ethanhua.eyepetizer.module.video.viewmodel.VideoBaseVM;
+import com.ethanhua.eyepetizer.module.video.viewmodel.VideoWatchRecordVM;
 
 import me.drakeet.multitype.ItemViewBinder;
 
@@ -16,7 +16,7 @@ import me.drakeet.multitype.ItemViewBinder;
  * Created by ethanhua on 2017/12/17.
  */
 
-public class VideoWatchRecordVB extends ItemViewBinder<VideoBaseVM, BindRcvViewHolder<ItemVideoWatchRecordBinding>> {
+public class VideoWatchRecordVB extends ItemViewBinder<VideoWatchRecordVM, BindRcvViewHolder<ItemVideoWatchRecordBinding>> {
     @NonNull
     @Override
     protected BindRcvViewHolder<ItemVideoWatchRecordBinding> onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
@@ -24,7 +24,7 @@ public class VideoWatchRecordVB extends ItemViewBinder<VideoBaseVM, BindRcvViewH
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull BindRcvViewHolder<ItemVideoWatchRecordBinding> holder, @NonNull VideoBaseVM item) {
-        holder.getBinding().setVideoVM(item);
+    protected void onBindViewHolder(@NonNull BindRcvViewHolder<ItemVideoWatchRecordBinding> holder, @NonNull VideoWatchRecordVM item) {
+        holder.getBinding().setVm(item);
     }
 }

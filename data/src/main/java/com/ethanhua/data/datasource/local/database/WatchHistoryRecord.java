@@ -38,8 +38,11 @@ public class WatchHistoryRecord {
     @ColumnInfo(name = "slogan")
     public String slogan;
 
-    @ColumnInfo(name = "sub_title")
-    public String subTitle;
+    @ColumnInfo(name = "category")
+    public String category;
+
+    @ColumnInfo(name = "duration")
+    public int duration;
 
     @ColumnInfo(name = "description")
     public String description;
